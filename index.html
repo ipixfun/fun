@@ -145,14 +145,14 @@
                     animateCharacter('right');
                     break;
                 case 2:
-                    // Kiri Menjawab -> Ganti ke Kiri 2
-                    imgLeft.src = daftarFoto.kiri;
+                    // Kiri Menjawab -> Ganti ke Kiri 1
+                    imgLeft.src = daftarFoto.kiri[1];
                     bLeft.innerText = "Baik";
                     bLeft.style.opacity = 1; bRight.style.opacity = 0;
                     animateCharacter('left');
                     break;
                 case 3:
-                    // Kiri Bertanya -> Tetap Kiri 2
+                    // Kiri Bertanya -> Ganti Kiri 2
                     imgLeft.src = daftarFoto.kiri[1];
                     bLeft.innerText = "Kamu apa kabar ?";
                     bLeft.style.opacity = 1; bRight.style.opacity = 0;
