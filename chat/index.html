@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Datang</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { 
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; 
+            background: linear-gradient(135deg, #11998e, #38ef7d, #0072ff);
+            overflow: hidden; 
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 24px; text-align: center; color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+    <!-- Script Crisp Chat -->
+    <script type="text/javascript">
+        window.$crisp=[];
+        window.CRISP_WEBSITE_ID="a23603f3-1d3e-4482-9304-f23df40093df";
+        (function(){
+            d=document;
+            s=d.createElement("script");
+            s.src="https://client.crisp.chat/l.js";
+            s.async=1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+
+        // Perintah untuk memaksa buka saat halaman selesai dimuat
+        window.onload = function() {
+            var checkCrisp = setInterval(function() {
+                if (typeof $crisp !== "undefined") {
+                    $crisp.push(["do", "chat:open"]);
+                    clearInterval(checkCrisp); // Berhenti mengecek setelah berhasil
+                }
+            }, 500); // Mengecek setiap 500ms apakah Crisp sudah siap
+        };
+    </script>
+</head>
+<body>
+    <div class="glass-card">
+        <h1>Selamat Datang</h1>
+        <p>Chat sedang dimuat dan akan terbuka otomatis...</p>
+    </div>
+</body>
+</html>
