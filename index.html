@@ -25,9 +25,9 @@
         .top-left-nav { position: absolute; top: 20px; left: 20px; }
         .top-right-nav { position: absolute; top: 20px; right: 20px; }
         
-        /* Logo Custom */
+        /* Logo Custom diperbesar 5% dari 50px menjadi 52.5px */
         .bottom-left-logo { 
-            position: absolute; bottom: 20px; left: 20px; width: 50px; height: 50px; 
+            position: absolute; bottom: 20px; left: 20px; width: 52.5px; height: 52.5px; 
             display: flex; align-items: center; justify-content: center;
             opacity: 0; transform: scale(0); animation: fadeInScale 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 1s;
         }
@@ -41,7 +41,8 @@
         .chat-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 40px; position: relative; width: 100%; max-width: 400px; }
         .character-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; }
         
-        .person-img { width: 120px; height: auto; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* Gambar diperbesar 10% dari 120px menjadi 132px */
+        .person-img { width: 132px; height: auto; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
         .float-anim { animation: float 4s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -84,13 +85,13 @@
     <div class="chat-container">
         <div class="character-wrapper">
             <div class="deco" id="bubbleLeft">...</div>
-            <!-- Gambar Lokal Kiri -->
+            <!-- Gambar Lokal Kiri diperbesar -->
             <img src="pemanggil_kiri.png" id="imgLeft" class="person-img float-anim" alt="Orang 1">
         </div>
         
         <div class="character-wrapper">
             <div class="deco" id="bubbleRight">...</div>
-            <!-- Gambar Lokal Kanan -->
+            <!-- Gambar Lokal Kanan diperbesar -->
             <img src="pemanggil_kanan.png" id="imgRight" class="person-img float-anim" alt="Orang 2">
         </div>
     </div>
@@ -105,6 +106,75 @@
 
     <script>
         const bLeft = document.getElementById('bubbleLeft');
+        const bRight = document.getElementById('bubbleRight');
+        const imgLeft = document.getElementById('imgLeft');
+        const imgRight = document.getElementById('imgRight');
+        
+        let step = 0;
+
+        function animateCharacter(activeSide) {
+            if(activeSide === 'left') {
+                imgLeft.classList.add('active-move');
+                imgLeft.classList.remove('float-anim');
+                imgRight.classList.remove('active-move');
+                imgRight.classList.add('float-anim');
+            } else {
+                imgRight.classList.add('active-move');
+                imgRight.classList.remove('float-anim');
+                imgLeft.classList.remove('active-move');
+                imgLeft.classList.add('float-anim');
+            }
+        }
+
+        function updateConversation() {
+            switch(step) {
+                case 0:
+                    bLeft.innerText = "Halo";
+                    bLeft.style.opacity = 1; bRight.style.opacity = 0;
+                    animateCharacter('left');
+                    break;
+                case 1:
+                    bRight.innerText = "Apa kabar ?";
+                    bRight.style.opacity = 1; bLeft.style.opacity = 0;
+                    animateCharacter('right');
+                    break;
+                case 2:
+                    bLeft.innerText = "Baik";
+                    bLeft.style.opacity = 1; bRight.style.opacity = 0;
+                    animateCharacter('left');
+                    break;
+                case 3:
+                    bLeft.innerText = "Kamu apa kabar ?";
+                    animateCharacter('left');
+                    break;
+                case 4:
+                    bRight.innerText = "Baik juga";
+                    bRight.style.opacity = 1; bLeft.style.opacity = 0;
+                    animateCharacter('right');
+                    break;
+            }
+            step = (step + 1) % 5;
+        }
+
+        setInterval(updateConversation, 2000);
+        setTimeout(updateConversation, 500);
+
+        const textElement = document.getElementById("typing-text");
+        const fullText = "Ada pertanyaan atau obrolan ?";
+        let i = 0;
+        function typeWriter() {
+            if (i < fullText.length) {
+                textElement.innerHTML = fullText.substring(0, i + 1) + '<span class="typing-cursor"></span>';
+                i++;
+                setTimeout(typeWriter, 50);
+            } else {
+                textElement.innerHTML = fullText;
+            }
+        }
+        setTimeout(typeWriter, 1500); 
+    </script>
+</body>
+</html>
         const bRight = document.getElementById('bubbleRight');
         const imgLeft = document.getElementById('imgLeft');
         const imgRight = document.getElementById('imgRight');
