@@ -25,10 +25,14 @@
             border:1px solid rgba(255,255,255,.1);
             backdrop-filter:blur(10px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
         }
         .pill-link:hover{
             transform:scale(1.08);
             background:rgba(255,255,255,.15);
+        }
+        .pill-link:active{
+            transform:scale(0.98);
         }
         .center-pill{
             background:linear-gradient(90deg,#22c55e,#06b6d4);
@@ -37,6 +41,14 @@
             box-shadow:0 4px 20px rgba(34,211,238,.5);
         }
         .center-pill:hover{
+            box-shadow:0 6px 25px rgba(34,211,238,.7);
+        }
+        .center-pill:active,
+        .center-pill:focus,
+        .center-pill:visited {
+            background:linear-gradient(90deg,#22c55e,#06b6d4) !important;
+            color:#000 !important;
+            transform:scale(0.98);
             box-shadow:0 6px 25px rgba(34,211,238,.7);
         }
 
@@ -51,7 +63,7 @@
             border: 3px solid #22d3ee;
             border-radius: 50%;
             border-top: none;
-            z-index: 5;
+            z-index: -1;
             opacity: 0.85;
         }
 
@@ -186,7 +198,6 @@
     </div>
 
     <script>
-        // Script tetap sama seperti sebelumnya
         const bLeft=document.getElementById('bubbleLeft'), bRight=document.getElementById('bubbleRight');
         const cLeft=document.getElementById('containerLeft'), cRight=document.getElementById('containerRight');
         let step=0, bubbleTimeout, nextDialogTimeout;
