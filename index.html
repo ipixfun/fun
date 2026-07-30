@@ -288,13 +288,13 @@
                         <div class="btn-wrapper btn-wrapper-left gsap-btn-left">
                             <a href="https://ipix.fun" class="cta-btn btn-ipix btn-ipix-tilt">
                                 <span class="btn-title">iPixFuN</span>
-                                <span class="btn-sub">Buka ipix.fun ↗</span>
+                                <span class="btn-sub"> www.ipix.fun ↗</span>
                             </a>
                         </div>
                         <div class="btn-wrapper btn-wrapper-right gsap-btn-right">
                             <a href="https://sukachub.my.id" class="cta-btn btn-chubby btn-chubby-tilt">
                                 <span class="btn-title">SukaChub</span>
-                                <span class="btn-sub">Buka sukachub.my.id ↗</span>
+                                <span class="btn-sub">www.sukachub.my.id ↗</span>
                             </a>
                         </div>
                     </div>
@@ -304,7 +304,7 @@
 
         <!-- Footer -->
         <div class="footer-text gsap-footer">
-            <span>aug 2026 | </span>
+            <span>aug'2026 | </span>
             <a href="https://ipix.fun" class="footer-link">ipix.my.id</a>
         </div>
     </div>
@@ -422,8 +422,8 @@
                 case 6: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Tinggal dimana?"); animateCharacter('right'); delay(1600).then(()=>{step=7;updateConversation()}); break;
                 case 7: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Dihatimuuu"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1750).then(()=>{step=8;updateConversation()}); break;
                 case 8: changeImageCrossFade('right',daftarFoto.kanan[2]); showBubble(bRight, "Hoooeeekkk"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=9;updateConversation()}); break;
-                case 9: changeImageCrossFade('right',daftarFoto.kanan[1]); showBubble(bRight, "Gombal"); animateCharacter('right'); delay(1400).then(()=>{step=10;updateConversation()}); break;
-                case 10: changeImageCrossFade('left',daftarFoto.kiri[1]); showBubble(bLeft, "Hahaha"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1650).then(()=>{step=11;updateConversation()}); break;
+                case 9: changeImageCrossFade('right',daftarFoto.kanan[1]); showBubble(bRight, "Ada aja hahaha"); animateCharacter('right'); delay(1400).then(()=>{step=10;updateConversation()}); break;
+                case 10: changeImageCrossFade('left',daftarFoto.kiri[1]); showBubble(bLeft, "Wkwkwkwk"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1650).then(()=>{step=11;updateConversation()}); break;
                 case 11: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Hmm..."); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(2100).then(()=>{step=0;updateConversation()}); break;
             }
         }
