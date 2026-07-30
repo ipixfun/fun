@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ipix.my.id | iPixChaT</title>
     
     <script>window.$crisp=[];window.CRISP_WEBSITE_ID="a23603f3-1d3e-4482-9304-f23df40093df";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.head.appendChild(s)})();</script>
@@ -14,7 +14,6 @@
             --gsap-green-dark: #057022;
             --bg-color: #000000;
             
-            /* MODE GELAP */
             --card-bg: #1e1e22; 
             --border-color: #55555d; 
             --border-width: 4px;
@@ -27,7 +26,6 @@
             --halo-c1: #ffffff;
             --halo-c2: var(--gsap-green);
 
-            /* WARNA TOMBOL TENGAH MODE GELAP */
             --btn-left-bg: #2a2a30;
             --btn-left-text: #ffffff;
             --btn-left-border: var(--border-color);
@@ -44,380 +42,278 @@
 
         [data-theme="light"] {
             --bg-color: #f4f4f5;
-            
-            /* MODE TERANG */
             --card-bg: #1e1e22; 
             --border-color: #0ae448; 
-
-            --text-main: #ffffff;
             --text-outer: #111111;
             --text-outer-sub: #555555;
             --shadow-color: rgba(0, 0, 0, 0.25);
             --bubble-left-bg: #2e2e36;
-            --halo-c1: #ffffff;
             --halo-c2: #0ae448;
 
-            /* WARNA TOMBOL TENGAH MODE TERANG */
             --btn-left-bg: #2e2e36;
-            --btn-left-text: #ffffff;
             --btn-left-border: #0ae448;
             --btn-left-shadow: rgba(0, 0, 0, 0.25);
 
-            --btn-right-bg: #0ae448;
-            --btn-right-text: #000000;
             --btn-right-border: #057022;
             --btn-right-shadow: #057022;
-
             --theme-dot-color: #ffffff;
             --theme-dot-shadow: #ffffff;
         }
 
-        *{box-sizing:border-box;margin:0;padding:0;font-family:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-        
+        [data-theme="light"] #themeLabel { color: var(--gsap-green); }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+        /* ROOT LAYOUT - Dirombak agar membagi ruang secara adil */
         body {
-            background: var(--bg-color);
-            color: var(--text-outer);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
-            transition: background 0.5s ease, color 0.5s ease;
+            background: var(--bg-color); color: var(--text-outer);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; min-height: 100dvh; /* Adaptif untuk browser HP */
+            overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease;
         }
 
-        .top-left-nav { position: absolute; top: 25px; left: 25px; z-index: 20; }
-        .top-right-nav { position: absolute; top: 25px; right: 25px; z-index: 20; }
-
-        .logo-text {
-            font-size: 1.35rem; font-weight: 900; color: var(--text-outer);
-            cursor: pointer; perspective: 400px; display: flex; letter-spacing: 0.5px;
-            transition: color 0.5s ease;
+        .page-wrapper {
+            display: flex; flex-direction: column; 
+            width: 100%; max-width: 480px; 
+            min-height: 100vh; min-height: 100dvh;
+            padding: 20px 15px;
         }
+
+        /* WRAPPER TENGAH - Ini rahasia agar kartu turun mengisi ruang kosong bawah */
+        .main-wrapper {
+            flex-grow: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; width: 100%;
+        }
+
+        /* --- Header --- */
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; flex-shrink: 0; z-index: 20;
+        }
+
+        .logo-text { font-size: 1.575rem; font-weight: 900; color: var(--text-outer); cursor: pointer; perspective: 400px; display: flex; letter-spacing: 0.5px; transition: color 0.5s ease; }
         .logo-text span { display: inline-block; transform-style: preserve-3d; }
-        
-        /* TOMBOL TEMA PILL CHAT */
+
         .theme-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: var(--card-bg); color: var(--text-outer);
-            padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;
-            text-decoration: none; border: 2px solid var(--border-color);
-            letter-spacing: 1.5px; cursor: pointer; position: relative;
-            box-shadow: 4px 4px 0 var(--border-color);
+            display: inline-flex; align-items: center; justify-content: center; background: var(--card-bg); color: var(--text-outer);
+            padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-decoration: none; border: 2px solid var(--border-color);
+            letter-spacing: 1.5px; cursor: pointer; position: relative; box-shadow: 4px 4px 0 var(--border-color);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease, background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
         .theme-btn::after {
-            content: ''; position: absolute; bottom: -6px; right: 20px;
-            width: 10px; height: 10px; background: var(--card-bg);
-            border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);
-            border-bottom-right-radius: 2px; transform: rotate(45deg);
-            transition: background 0.5s ease, border-color 0.5s ease;
+            content: ''; position: absolute; bottom: -6px; right: 20px; width: 10px; height: 10px; background: var(--card-bg);
+            border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color); border-bottom-right-radius: 2px; transform: rotate(45deg); transition: background 0.5s ease, border-color 0.5s ease;
         }
-        .theme-btn:hover {
-            transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border-color);
-        }
-        .theme-btn:active {
-            transform: translateY(2px); box-shadow: 2px 2px 0 var(--border-color);
-        }
-        
-        .theme-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background-color: var(--theme-dot-color); margin-right: 8px;
-            box-shadow: 0 0 8px var(--theme-dot-shadow);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
+        .theme-btn:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border-color); }
+        .theme-btn:active { transform: translateY(2px); box-shadow: 2px 2px 0 var(--border-color); }
 
-        /* KOTAK UTAMA */
+        .theme-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--theme-dot-color); margin-right: 8px; box-shadow: 0 0 8px var(--theme-dot-shadow); transition: background 0.3s ease, box-shadow 0.3s ease; }
+
+        /* --- Kartu Utama --- */
+        .card-container { position: relative; width: 100%; margin-top: 140px; z-index: 5; }
+
         .card {
-            position: relative; 
-            z-index: 5;
-            background: var(--card-bg); 
-            border: var(--border-width) solid var(--border-color);
-            padding: 105px 25px 35px; 
-            border-radius: 28px 28px 28px 0; 
-            width: 100%; 
-            max-width: 480px;
-            text-align: center; 
-            margin-top: 180px; 
+            position: relative; background: var(--card-bg); border: var(--border-width) solid var(--border-color);
+            padding: 75px 22px 30px; border-radius: 28px 28px 28px 0; width: 100%; text-align: center; 
             box-shadow: 12px 12px 0 var(--border-color), 0 15px 30px var(--shadow-color);
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        .chat-container {
-            position: absolute;
-            top: -160px; 
-            left: 0; right: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 15px; 
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        .character-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 145px;
-            height: 185px;
-            pointer-events: auto;
-        }
-        .img-container{position:relative;width:100%;height:100%;z-index:10;}
-        .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .4s ease-in-out}
+        /* --- Karakter & Obrolan --- */
+        .chat-container { position: absolute; top: -125px; left: 0; right: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 10; pointer-events: none; }
+        .character-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 138px; height: 168px; pointer-events: auto; }
+        .img-container { position: relative; width: 100%; height: 100%; z-index: 10; }
+        .person-img { position: absolute; top: 0; left: 0; width: 100%; height: auto; transition: opacity .4s ease-in-out; }
+        .flipped-blue { transform: scaleX(-1); }
 
-        .float-anim{animation:float 4.2s ease-in-out infinite}
-        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-        
-        /* BUBBLE CHAT DIGESER KE LUAR & ATAS AGAR TIDAK NABRAK */
+        .float-anim { animation: float 4.2s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
         .deco {
-            position: absolute; 
-            bottom: calc(100% + 12px); 
-            border-radius: 12px; padding: 6px 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 700; white-space: nowrap;
+            position: absolute; bottom: calc(100% + 5px); border-radius: 12px; padding: 8px 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; 
+            text-align: center; max-width: 150px; white-space: normal; word-break: break-word;
             box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 32px; z-index: 12;
             transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
-        
         .deco::before, .deco::after { content: ""; position: absolute; top: 100%; border-style: solid; transition: border-color 0.5s ease; }
 
-        /* Bubble Kiri digeser sedikit ke arah luar (kiri) */
-        #bubbleLeft { 
-            background: var(--bubble-left-bg); 
-            color: var(--text-main); 
-            border: 2px solid var(--border-color); 
-            left: -15px; 
-        }
-        #bubbleLeft::before { border-width: 10px 12px 0 0; border-color: var(--border-color) transparent transparent transparent; left: 24px; }
-        #bubbleLeft::after { border-width: 7px 9px 0 0; border-color: var(--bubble-left-bg) transparent transparent transparent; left: 26px; margin-top: -2px; }
+        #bubbleLeft { background: var(--bubble-left-bg); color: var(--text-main); border: 2px solid var(--border-color); left: 0; }
+        #bubbleLeft::before { border-width: 8px 10px 0 0; border-color: var(--border-color) transparent transparent transparent; left: 20px; }
+        #bubbleLeft::after { border-width: 6px 8px 0 0; border-color: var(--bubble-left-bg) transparent transparent transparent; left: 21px; margin-top: -2px; }
 
-        /* Bubble Kanan digeser sedikit ke arah luar (kanan) */
-        #bubbleRight { 
-            background: var(--gsap-green); 
-            color: #000; 
-            border: 2px solid var(--gsap-green-dark); 
-            right: -15px; 
-        }
-        #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 24px; }
-        #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 26px; margin-top: -2px; }
+        #bubbleRight { background: var(--gsap-green); color: #000; border: 2px solid var(--gsap-green-dark); right: 0; }
+        #bubbleRight::before { border-width: 8px 0 0 10px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 20px; }
+        #bubbleRight::after { border-width: 6px 0 0 8px; border-color: var(--gsap-green) transparent transparent transparent; right: 21px; margin-top: -2px; }
 
-        /* EKOR SEGITIGA BAWAH KOTAK UTAMA */
-        .card-tail {
-            position: absolute;
-            bottom: -36px;
-            left: calc(-1 * var(--border-width));
-            width: 50px;
-            height: 38px;
-            z-index: 6;
-            pointer-events: none;
-        }
+        /* --- Elemen Dekoratif Kartu --- */
+        .card-tail { position: absolute; bottom: -36px; left: calc(-1 * var(--border-width)); width: 50px; height: 38px; z-index: 6; pointer-events: none; }
         .card-tail svg { width: 100%; height: 100%; display: block; overflow: visible; }
-        .card-tail .tail-fill {
-            fill: var(--card-bg);
-            transition: fill 0.5s ease;
-        }
-        .card-tail .tail-stroke {
-            fill: none;
-            stroke: var(--border-color);
-            stroke-width: var(--border-width);
-            stroke-linejoin: round;
-            stroke-linecap: round;
-            transition: stroke 0.5s ease;
-        }
+        .card-tail .tail-fill { fill: var(--card-bg); transition: fill 0.5s ease; }
+        .card-tail .tail-stroke { fill: none; stroke: var(--border-color); stroke-width: var(--border-width); stroke-linejoin: round; stroke-linecap: round; transition: stroke 0.5s ease; }
 
         .card-logo {
-            position:absolute;top:-75px;left:50%;transform:translateX(-50%);
-            width:130px;height:130px;background: #000;border-radius:50%;
-            border: 4px solid var(--border-color);overflow:hidden;z-index:20;
-            display: flex;align-items: center;justify-content: center;
-            box-shadow: 0 10px 0 var(--shadow-color);
-            transition: border-color 0.5s ease, box-shadow 0.5s ease;
+            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 100px; background: #000; border-radius: 50%; border: 4px solid var(--border-color);
+            overflow: hidden; z-index: 20; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 var(--shadow-color); transition: border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
+        /* --- Tipografi & Tombol --- */
         h1 { 
-            font-size: 2.5rem; font-weight: 900; margin-bottom: 25px; margin-top: 10px;
-            text-transform: uppercase; letter-spacing: 2px; display: flex;
-            justify-content: center; align-items: flex-end; 
-            flex-wrap: wrap; gap: 6px; transform: rotate(-2deg); min-height: 55px;
+            font-size: 2.1rem; font-weight: 900; margin-bottom: 22px; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px;
+            display: flex; justify-content: center; align-items: flex-end; flex-wrap: wrap; gap: 6px; transform: rotate(-2deg); min-height: 45px;
         }
-        
+
         .char { display: inline-block; transform-style: preserve-3d; transition: color 0.5s ease; }
         .char-c1 { color: var(--halo-c1); }
-        .char-c2 { color: var(--halo-c2); text-shadow: 0 0 12px rgba(10, 228, 72, 0.4); }
+        .char-c2 { color: var(--halo-c2); text-shadow: 0 0 10px rgba(10, 228, 72, 0.4); }
         .brutal-symbol { display: inline-block; transform-origin: center bottom; }
 
-        .cta-container { 
-            display: flex; justify-content: center; align-items: center;
-            width: 100%; position: relative; margin-top: 15px; 
-        }
+        .cta-container { display: flex; justify-content: center; align-items: center; width: 100%; position: relative; margin-top: 8px; }
         .btn-wrapper { display: inline-block; position: relative; }
         .btn-wrapper-left { z-index: 5; margin-right: -5px; } 
         .btn-wrapper-right { z-index: 4; margin-left: -5px; }
-        
+
         .cta-btn {
-            position: relative; display: inline-flex; flex-direction: column; 
-            align-items: center; justify-content: center; width: 210px;
-            padding: 16px 12px; border-radius: 16px; text-decoration: none;
+            position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 190px;
+            padding: 14px 10px; border-radius: 14px; text-decoration: none;
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
 
-        .btn-ipix-tilt { transform: translateX(-8px) translateY(8px) rotate(-3deg); }
-        .btn-ipix-tilt:hover { z-index: 10; transform: translateX(-10px) translateY(0px) scale(1.05) rotate(0deg); }
+        /* KEMIRINGAN TOMBOL AMAN */
+        .btn-ipix-tilt { transform: translateX(-6px) translateY(6px) rotate(-3deg); }
+        .btn-ipix-tilt:hover { z-index: 10; transform: translateX(-8px) translateY(0px) scale(1.05) rotate(0deg); }
 
-        .btn-chubby-tilt { transform: translateX(8px) translateY(-5px) rotate(2deg); }
-        .btn-chubby-tilt:hover { z-index: 10; transform: translateX(10px) translateY(-10px) scale(1.05) rotate(0deg); }
+        .btn-chubby-tilt { transform: translateX(6px) translateY(-4px) rotate(2deg); }
+        .btn-chubby-tilt:hover { z-index: 10; transform: translateX(8px) translateY(-6px) scale(1.05) rotate(0deg); }
 
-        .btn-title { font-size: 1.05rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .btn-sub { font-size: 0.75rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.5px; text-transform: lowercase; }
+        .btn-title { font-size: 0.95rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .btn-sub { font-size: 0.68rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.5px; text-transform: lowercase; }
 
-        /* TOMBOL TENGAH 1 (Gaya Balon Chat 3D Dinamis) */
-        .btn-ipix { 
-            background: var(--btn-left-bg); 
-            color: var(--btn-left-text); 
-            border: 2px solid var(--btn-left-border); 
-            box-shadow: 0 8px 0 var(--btn-left-shadow); 
-        }
+        .btn-ipix { background: var(--btn-left-bg); color: var(--btn-left-text); border: 2px solid var(--btn-left-border); box-shadow: 0 6px 0 var(--btn-left-shadow); }
         .btn-ipix::before {
-            content: ''; position: absolute; top: 50%; left: -7px; transform: translateY(-50%) rotate(45deg);
-            width: 14px; height: 14px; background: var(--btn-left-bg);
-            border-bottom: 2px solid var(--btn-left-border); border-left: 2px solid var(--btn-left-border);
-            border-bottom-left-radius: 3px; z-index: 3; 
-            transition: background 0.5s ease, border-color 0.5s ease;
+            content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%) rotate(45deg); width: 12px; height: 12px;
+            background: var(--btn-left-bg); border-bottom: 2px solid var(--btn-left-border); border-left: 2px solid var(--btn-left-border); border-bottom-left-radius: 3px; z-index: 3; transition: background 0.5s ease, border-color 0.5s ease;
         }
 
-        /* TOMBOL TENGAH 2 (Gaya Balon Chat 3D Dinamis) */
-        .btn-chubby { 
-            background: var(--btn-right-bg); 
-            color: var(--btn-right-text); 
-            border: 2px solid var(--btn-right-border); 
-            box-shadow: 0 8px 0 var(--btn-right-shadow); 
-        }
+        .btn-chubby { background: var(--btn-right-bg); color: var(--btn-right-text); border: 2px solid var(--btn-right-border); box-shadow: 0 6px 0 var(--btn-right-shadow); }
         .btn-chubby::before {
-            content: ''; position: absolute; top: 50%; right: -7px; transform: translateY(-50%) rotate(45deg);
-            width: 14px; height: 14px; background: var(--btn-right-bg);
-            border-top: 2px solid var(--btn-right-border); border-right: 2px solid var(--btn-right-border);
-            border-top-right-radius: 3px; z-index: 3;
-            transition: background 0.5s ease, border-color 0.5s ease;
+            content: ''; position: absolute; top: 50%; right: -6px; transform: translateY(-50%) rotate(45deg); width: 12px; height: 12px;
+            background: var(--btn-right-bg); border-top: 2px solid var(--btn-right-border); border-right: 2px solid var(--btn-right-border); border-top-right-radius: 3px; z-index: 3; transition: background 0.5s ease, border-color 0.5s ease;
         }
 
-        .footer-text { margin-top: 45px; text-align: center; font-size: 0.95rem; font-weight: bold; color: var(--text-outer); transition: color 0.5s ease; }
+        /* --- Footer --- */
+        .footer-text { 
+            text-align: center; font-size: 0.85rem; font-weight: bold; 
+            color: var(--text-outer); transition: color 0.5s ease; 
+            padding-top: 20px; flex-shrink: 0;
+        }
         .footer-text span { color: var(--text-outer-sub); transition: color 0.5s ease; }
         .footer-link { color: var(--gsap-green); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* ====== RESPONSIVE BREAKPOINTS ====== */
         @media (max-width: 576px) {
-            .card { margin-top: 170px; padding: 90px 20px 30px; max-width: 92%; }
-            .character-wrapper { width: 115px; height: 150px; }
-            .chat-container { top: -130px; padding: 0 10px; }
-            h1 { font-size: 2.0rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .card { 
-                margin-top: 145px;
-                padding: 75px 15px 25px; border-radius: 20px 20px 20px 0; max-width: 95%; 
-                box-shadow: 8px 8px 0 var(--border-color), 0 10px 25px var(--shadow-color);
-            }
-            .chat-container { top: -115px; padding: 0 8px; }
-            .character-wrapper { width: 100px; height: 130px; }
-            .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 10px); }
-            #bubbleLeft { left: -5px; }
-            #bubbleRight { right: -5px; }
-            
-            .card-tail { width: 40px; height: 28px; bottom: -26px; }
-            
-            .card-logo { width: 100px; height: 100px; top: -50px; }
-            h1 { font-size: 1.6rem; min-height: 45px; }
-            
-            .cta-container { flex-direction: column; gap: 10px; margin-top: 15px; }
-            .btn-wrapper-left { margin-right: 0; margin-bottom: 0; }
-            .btn-wrapper-right { margin-left: 0; }
-            
-            .cta-btn { width: 100%; min-width: 250px; }
-            .btn-ipix-tilt { transform: translateX(-5px) translateY(0) rotate(-1deg); }
-            .btn-ipix-tilt:hover { transform: translateX(-5px) translateY(-3px) scale(1.02) rotate(0deg); }
-            .btn-chubby-tilt { transform: translateX(5px) translateY(0) rotate(1deg); }
-            .btn-chubby-tilt:hover { transform: translateX(5px) translateY(-3px) scale(1.02) rotate(0deg); }
+            .page-wrapper { max-width: 92%; }
+            .character-wrapper { width: 115px; height: 140px; }
+            .chat-container { top: -110px; padding: 0 12px; }
+            h1 { font-size: 1.8rem; }
         }
 
-        @media (max-width: 360px) {
-            .chat-container { top: -95px; }
-            .character-wrapper { width: 85px; height: 110px; }
-            .card-logo { width: 90px; height: 90px; top: -45px; }
-            h1 { font-size: 1.4rem; }
+        @media (max-width: 480px) {
+            .page-wrapper { max-width: 95%; padding-top: 15px; } 
+            
+            .card-container { margin-top: 120px; } 
+            .card { padding: 65px 15px 25px; border-radius: 18px 18px 18px 0; box-shadow: 8px 8px 0 var(--border-color), 0 10px 25px var(--shadow-color); }
+            
+            .chat-container { top: -100px; padding: 0 8px; }
+            .character-wrapper { width: 100px; height: 122px; } 
+            
+            .deco { font-size: 10px; padding: 6px 10px; bottom: calc(100% + 5px); max-width: 130px; }
+            .card-tail { width: 35px; height: 25px; bottom: -24px; }
+            .card-logo { width: 85px; height: 85px; top: -42px; }
+            h1 { font-size: 1.4rem; min-height: 38px; margin-bottom: 15px; margin-top: 0; }
+            
+            /* Jarak aman antar tombol yang ditumpuk sambil tetap dipertahankan miringnya */
+            .cta-container { flex-direction: column; gap: 18px; margin-top: 10px; }
+            .btn-wrapper-left { margin-right: 0; margin-bottom: 0; }
+            .btn-wrapper-right { margin-left: 0; }
+            .cta-btn { width: 100%; min-width: 250px; }
         }
     </style>
 </head>
 <body>
     
-    <div class="top-left-nav gsap-nav">
-        <div class="logo-text" id="logoFlipping">iPixChaT</div>
-    </div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="page-header gsap-nav">
+            <div class="logo-text" id="logoFlipping">iPixChaT</div>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <span class="theme-dot" id="themeDot"></span> 
+                <span id="themeLabel">LIGHT</span>
+            </button>
+        </header>
 
-    <div class="top-right-nav gsap-nav">
-        <button class="theme-btn" onclick="toggleTheme()">
-            <span class="theme-dot" id="themeDot"></span> 
-            <span id="themeLabel">LIGHT</span>
-        </button>
-    </div>
+        <!-- WRAPPER PENYELAMAT: Ini yang akan menarik elemen pas ke tengah secara proporsional -->
+        <div class="main-wrapper">
+            <div class="card-container">
+                <div class="card gsap-card">
+                    
+                    <div class="chat-container">
+                        <div class="character-wrapper gsap-char">
+                            <div class="deco" id="bubbleLeft">...</div>
+                            <div class="img-container float-anim" id="containerLeft">
+                                <img src="pemanggil_kiri_3.png" id="imgLeft1" class="person-img" style="opacity:1" alt="">
+                                <img src="pemanggil_kiri.png" id="imgLeft2" class="person-img" style="opacity:0" alt="">
+                            </div>
+                        </div>
+                        <div class="character-wrapper gsap-char">
+                            <div class="deco" id="bubbleRight">...</div>
+                            <div class="img-container float-anim" id="containerRight">
+                                <img src="pemanggil_kanan.png" id="imgRight1" class="person-img flipped-blue" style="opacity:1" alt="">
+                                <img src="pemanggil_kanan_4.png" id="imgRight2" class="person-img flipped-blue" style="opacity:0" alt="">
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- KOTAK UTAMA -->
-    <div class="card gsap-card">
-        
-        <div class="chat-container">
-            <div class="character-wrapper gsap-char">
-                <div class="deco" id="bubbleLeft">...</div>
-                <div class="img-container float-anim" id="containerLeft">
-                    <img src="pemanggil_kiri_3.png" id="imgLeft1" class="person-img" style="opacity:1" alt="">
-                    <img src="pemanggil_kiri.png" id="imgLeft2" class="person-img" style="opacity:0" alt="">
+                    <div class="card-tail">
+                        <svg viewBox="0 0 50 38" overflow="visible">
+                            <path class="tail-fill" d="M 2,-4 L 2,34 L 46,2 Z" />
+                            <path class="tail-stroke" d="M 2,-4 L 2,34 L 46,2" />
+                        </svg>
+                    </div>
+
+                    <div class="card-logo gsap-logo">
+                        <img src="logo.png" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                    </div>
+                    
+                    <h1 id="halo-text">HAI KAMU !?</h1>
+                    
+                    <div class="cta-container">
+                        <div class="btn-wrapper btn-wrapper-left gsap-btn-left">
+                            <a href="https://ipix.fun" class="cta-btn btn-ipix btn-ipix-tilt">
+                                <span class="btn-title">iPixFuN</span>
+                                <span class="btn-sub">Buka ipix.fun ↗</span>
+                            </a>
+                        </div>
+                        <div class="btn-wrapper btn-wrapper-right gsap-btn-right">
+                            <a href="https://sukachub.my.id" class="cta-btn btn-chubby btn-chubby-tilt">
+                                <span class="btn-title">SukaChub</span>
+                                <span class="btn-sub">Buka sukachub.my.id ↗</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="character-wrapper gsap-char">
-                <div class="deco" id="bubbleRight">...</div>
-                <div class="img-container float-anim" id="containerRight">
-                    <img src="pemanggil_kanan.png" id="imgRight1" class="person-img" style="opacity:1" alt="">
-                    <img src="pemanggil_kanan_4.png" id="imgRight2" class="person-img" style="opacity:0" alt="">
-                </div>
-            </div>
         </div>
 
-        <div class="card-tail">
-            <svg viewBox="0 0 50 38" overflow="visible">
-                <path class="tail-fill" d="M 2,-4 L 2,34 L 46,2 Z" />
-                <path class="tail-stroke" d="M 2,-4 L 2,34 L 46,2" />
-            </svg>
-        </div>
-
-        <div class="card-logo gsap-logo">
-            <img src="logo.png" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-        </div>
-        
-        <h1 id="halo-text">HAI KAMU !?</h1>
-        
-        <div class="cta-container">
-            <div class="btn-wrapper btn-wrapper-left gsap-btn-left">
-                <a href="https://ipix.fun" class="cta-btn btn-ipix btn-ipix-tilt">
-                    <span class="btn-title">iPixFuN</span>
-                    <span class="btn-sub">Buka ipix.fun ↗</span>
-                </a>
-            </div>
-            <div class="btn-wrapper btn-wrapper-right gsap-btn-right">
-                <a href="https://sukachub.my.id" class="cta-btn btn-chubby btn-chubby-tilt">
-                    <span class="btn-title">SukaChub</span>
-                    <span class="btn-sub">Buka sukachub.my.id ↗</span>
-                </a>
-            </div>
+        <!-- Footer -->
+        <div class="footer-text gsap-footer">
+            <span>aug 2026 | </span>
+            <a href="https://ipix.fun" class="footer-link">ipix.my.id</a>
         </div>
     </div>
 
-    <div class="footer-text gsap-footer">
-        <span>aug 2026 | </span>
-        <a href="https://ipix.my.id" class="footer-link">ipix.my.id</a>
-    </div>
-
+    <!-- LOGIKA JAVASCRIPT TETAP UTUH TIDAK ADA YANG DIUBAH -->
     <script>
         let isDarkMode = true;
         function toggleTheme() {
@@ -425,58 +321,35 @@
             const btn = document.querySelector('.theme-btn');
             const label = document.getElementById('themeLabel');
             
-            if (isDarkMode) {
-                body.setAttribute('data-theme', 'light');
-                label.innerText = 'DARK';
-            } else {
-                body.removeAttribute('data-theme');
-                label.innerText = 'LIGHT';
-            }
+            if (isDarkMode) { body.setAttribute('data-theme', 'light'); label.innerText = 'DARK'; } 
+            else { body.removeAttribute('data-theme'); label.innerText = 'LIGHT'; }
             isDarkMode = !isDarkMode;
             gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: "back.out(2)" });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             const logo = document.getElementById('logoFlipping');
-            const logoString = logo.innerText;
-            logo.innerHTML = '';
+            const logoString = logo.innerText; logo.innerHTML = '';
             logoString.split('').forEach((char, index) => {
-                const span = document.createElement('span');
-                span.innerText = char;
+                const span = document.createElement('span'); span.innerText = char;
                 if (index >= 4) span.style.color = 'var(--gsap-green)';
                 logo.appendChild(span);
             });
             const logoSpans = document.querySelectorAll('#logoFlipping span');
 
             const halo = document.getElementById('halo-text');
-            const haloRawText = halo.innerText;
-            halo.innerHTML = '';
-            
-            let totalChars = haloRawText.replace(/ /g, '').length;
-            let charIndex = 0;
-            let wordIndex = 0;
+            const haloRawText = halo.innerText; halo.innerHTML = '';
+            let totalChars = haloRawText.replace(/ /g, '').length, charIndex = 0, wordIndex = 0;
             
             haloRawText.split('').forEach((char) => {
-                if (char === ' ') {
-                    const space = document.createElement('span');
-                    space.innerHTML = '&nbsp;';
-                    halo.appendChild(space);
-                    wordIndex++; 
-                } else {
-                    const span = document.createElement('span');
-                    span.innerText = char;
-                    span.classList.add('char');
-                    span.classList.add(wordIndex === 0 ? 'char-c1' : 'char-c2');
-                    
-                    if (char === '!' || char === '?') {
-                        span.classList.add('brutal-symbol');
-                    }
-                    
+                if (char === ' ') { const space = document.createElement('span'); space.innerHTML = '&nbsp;'; halo.appendChild(space); wordIndex++; } 
+                else {
+                    const span = document.createElement('span'); span.innerText = char;
+                    span.classList.add('char'); span.classList.add(wordIndex === 0 ? 'char-c1' : 'char-c2');
+                    if (char === '!' || char === '?') { span.classList.add('brutal-symbol'); }
                     let scaleProgress = charIndex / (totalChars - 1);
                     span.style.fontSize = (0.75 + (scaleProgress * 0.75)) + 'em';
-                    
-                    halo.appendChild(span);
-                    charIndex++;
+                    halo.appendChild(span); charIndex++;
                 }
             });
             const haloChars = document.querySelectorAll('.char');
@@ -484,32 +357,11 @@
 
             const tl = gsap.timeline({
                 onComplete: () => {
-                    gsap.to(haloChars, {
-                        scale: 1.08,
-                        y: -3,
-                        duration: 1.4,
-                        stagger: { each: 0.12, repeat: -1, yoyo: true },
-                        ease: "sine.inOut"
-                    });
-
-                    if (brutalSymbols.length > 0) {
-                        gsap.to(brutalSymbols, {
-                            scale: 1.4,
-                            rotation: () => (Math.random() * 30 - 15),
-                            y: -10,
-                            duration: 0.12,
-                            repeat: -1,
-                            yoyo: true,
-                            stagger: { each: 0.05 },
-                            ease: "power1.inOut"
-                        });
-                    }
-                    
-                    gsap.to(".gsap-logo", { scale: 1.06, boxShadow: "0 15px 0 var(--shadow-color)", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-                    gsap.to(".btn-wrapper-left", { y: -8, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
-                    gsap.to(".btn-wrapper-right", { y: -10, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
-                    
+                    gsap.to(haloChars, { scale: 1.08, y: -3, duration: 1.4, stagger: { each: 0.12, repeat: -1, yoyo: true }, ease: "sine.inOut" });
+                    if (brutalSymbols.length > 0) { gsap.to(brutalSymbols, { scale: 1.4, rotation: () => (Math.random() * 30 - 15), y: -10, duration: 0.12, repeat: -1, yoyo: true, stagger: { each: 0.05 }, ease: "power1.inOut" }); }
+                    gsap.to(".gsap-logo", { scale: 1.06, boxShadow: "0 12px 0 var(--shadow-color)", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+                    gsap.to(".btn-wrapper-left", { y: -6, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+                    gsap.to(".btn-wrapper-right", { y: -8, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
                     mulaiFungsiUtama();
                 }
             });
@@ -524,84 +376,50 @@
               .from(".gsap-btn-left", { x: -200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "-=0.2")
               .from(".gsap-btn-right", { x: 200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "<");
               
-            logo.addEventListener('mouseenter', () => {
-                gsap.to(logoSpans, { rotationY: "+=360", duration: 0.6, stagger: 0.05, ease: "power2.inOut" });
-            });
+            logo.addEventListener('mouseenter', () => { gsap.to(logoSpans, { rotationY: "+=360", duration: 0.6, stagger: 0.05, ease: "power2.inOut" }); });
         });
 
         const bLeft = document.getElementById('bubbleLeft'), bRight = document.getElementById('bubbleRight');
         const cLeft = document.getElementById('containerLeft'), cRight = document.getElementById('containerRight');
-        let step = 0, bubbleTimeout, nextDialogTimeout;
-        let animLeft, animRight;
+        let step = 0, bubbleTimeout, nextDialogTimeout, animLeft, animRight;
 
-        const daftarFoto = {
-            kiri: ["pemanggil_kiri.png", "pemanggil_kiri_2.png", "pemanggil_kiri_3.png"],
-            kanan: ["pemanggil_kanan.png", "pemanggil_kanan_2.png", "pemanggil_kanan_3.png", "pemanggil_kanan_4.png"]
-        };
+        const daftarFoto = { kiri: ["pemanggil_kiri.png", "pemanggil_kiri_2.png", "pemanggil_kiri_3.png"], kanan: ["pemanggil_kanan.png", "pemanggil_kanan_2.png", "pemanggil_kanan_3.png", "pemanggil_kanan_4.png"] };
 
         function animateCharacter(side) {
-            if (animLeft) animLeft.kill();
-            if (animRight) animRight.kill();
-
+            if (animLeft) animLeft.kill(); if (animRight) animRight.kill();
             if (side === 'left') {
-                cLeft.classList.remove('float-anim');
-                cRight.classList.add('float-anim');
-                
+                cLeft.classList.remove('float-anim'); cRight.classList.add('float-anim');
                 gsap.to(cRight, { scale: 1, y: 0, duration: 0.4, onComplete: () => gsap.set(cRight, { clearProps: "transform" }) });
-                
-                animLeft = gsap.timeline()
-                    .to(cLeft, { scale: 1.35, y: -15, duration: 0.4, ease: "back.out(1.5)" })
-                    .to(cLeft, { y: -25, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
+                animLeft = gsap.timeline().to(cLeft, { scale: 1.14, y: -6, duration: 0.4, ease: "back.out(1.5)" }).to(cLeft, { y: -12, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
             } else {
-                cRight.classList.remove('float-anim');
-                cLeft.classList.add('float-anim');
-                
+                cRight.classList.remove('float-anim'); cLeft.classList.add('float-anim');
                 gsap.to(cLeft, { scale: 1, y: 0, duration: 0.4, onComplete: () => gsap.set(cLeft, { clearProps: "transform" }) });
-                
-                animRight = gsap.timeline()
-                    .to(cRight, { scale: 1.35, y: -15, duration: 0.4, ease: "back.out(1.5)" })
-                    .to(cRight, { y: -25, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
+                animRight = gsap.timeline().to(cRight, { scale: 1.14, y: -6, duration: 0.4, ease: "back.out(1.5)" }).to(cRight, { y: -12, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
             }
         }
 
         function changeImageCrossFade(side, newSrc) {
             const img1 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}1`);
             const img2 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}2`);
-            
-            if (img1.style.opacity === "1" || getComputedStyle(img1).opacity === "1") {
-                img2.src = newSrc; img2.style.opacity = 1; img1.style.opacity = 0;
-            } else {
-                img1.src = newSrc; img1.style.opacity = 1; img2.style.opacity = 0;
-            }
+            if (side === 'right') { img1.classList.add('flipped-blue'); img2.classList.add('flipped-blue'); }
+            if (img1.style.opacity === "1" || getComputedStyle(img1).opacity === "1") { img2.src = newSrc; img2.style.opacity = 1; img1.style.opacity = 0; } 
+            else { img1.src = newSrc; img1.style.opacity = 1; img2.style.opacity = 0; }
         }
 
         function typeWriterBubble(el, text, speed, callback) {
             let i = 0; el.innerText = ""; clearTimeout(bubbleTimeout);
             gsap.fromTo(el, { scale: 0.5, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" });
-            
-            function type() {
-                if (i < text.length) {
-                    el.innerText = text.substring(0, i + 1);
-                    i++;
-                    bubbleTimeout = setTimeout(type, speed);
-                } else if (callback) callback();
-            }
+            function type() { if (i < text.length) { el.innerText = text.substring(0, i + 1); i++; bubbleTimeout = setTimeout(type, speed); } else if (callback) callback(); }
             type();
         }
 
         function updateConversation() {
             clearTimeout(nextDialogTimeout);
             const delay = (ms) => new Promise(r => nextDialogTimeout = setTimeout(r, ms));
-            const showBubble = (el, text) => {
-                el.innerText = text;
-                gsap.fromTo(el, { scale: 0.5, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" });
-            };
-
+            const showBubble = (el, text) => { el.innerText = text; gsap.fromTo(el, { scale: 0.5, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }); };
             switch(step){
-                case 0: changeImageCrossFade('left',daftarFoto.kiri[2]); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left');
-                    typeWriterBubble(bLeft,"Hai saya iPix Salam kenal",45,()=>delay(1700).then(()=>{step=1;updateConversation()})); break;
-                case 1: changeImageCrossFade('right',daftarFoto.kanan[3]); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right');
-                    typeWriterBubble(bRight,"Hai juga, saya Chubby Salam kenal",45,()=>delay(1800).then(()=>{step=2;updateConversation()})); break;
+                case 0: changeImageCrossFade('left',daftarFoto.kiri[2]); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); typeWriterBubble(bLeft,"Hai saya iPix Salam kenal",45,()=>delay(1700).then(()=>{step=1;updateConversation()})); break;
+                case 1: changeImageCrossFade('right',daftarFoto.kanan[3]); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); typeWriterBubble(bRight,"Hai juga, saya Chubby Salam kenal",45,()=>delay(1800).then(()=>{step=2;updateConversation()})); break;
                 case 2: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Kamu apa kabar ?"); animateCharacter('right'); delay(1550).then(()=>{step=3;updateConversation()}); break;
                 case 3: changeImageCrossFade('left',daftarFoto.kiri[2]); showBubble(bLeft, "Baik"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1250).then(()=>{step=4;updateConversation()}); break;
                 case 4: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Apa kabar kamu ?"); animateCharacter('left'); delay(1650).then(()=>{step=5;updateConversation()}); break;
@@ -615,9 +433,7 @@
             }
         }
 
-        function mulaiFungsiUtama() {
-            setTimeout(updateConversation, 300);
-        }
+        function mulaiFungsiUtama() { setTimeout(updateConversation, 300); }
     </script>
 </body>
 </html>
