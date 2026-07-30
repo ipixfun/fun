@@ -5,56 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ipix.my.id | iPixChaT</title>
     
-    <!-- Crisp Chat -->
     <script>window.$crisp=[];window.CRISP_WEBSITE_ID="a23603f3-1d3e-4482-9304-f23df40093df";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.head.appendChild(s)})();</script>
-    
-    <!-- GSAP Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* =========================================
-           SISTEM WARNA DINAMIS (DARK / LIGHT MODE) 
-           ========================================= */
         :root {
             --gsap-green: #0ae448;
             --gsap-green-dark: #057022;
-
-            /* Default: Dark Mode */
             --bg-color: #000000;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-sub: #999999;
-            --border-color: #333333;
-            --shadow-color: #000000;
-            --bubble-left-bg: #222222; 
             
-            --halo-c1: var(--text-main);
+            /* MODE GELAP: Background abu tua, List/Border abu-abu */
+            --card-bg: #1e1e22; 
+            --border-color: #55555d; 
+            --border-width: 4px;
+
+            --text-main: #ffffff;
+            --text-outer: #ffffff;
+            --text-outer-sub: #aaaaaa;
+            --shadow-color: #000000;
+            --bubble-left-bg: #2a2a30; 
+            --halo-c1: #ffffff;
             --halo-c2: var(--gsap-green);
-            --curve-line1: #ffffff;
-            --curve-line2: var(--gsap-green);
         }
 
         [data-theme="light"] {
-            /* Light Mode */
             --bg-color: #f4f4f5;
-            --card-bg: #ffffff;
-            --text-main: #09090b;
-            --text-sub: #52525b;
-            --border-color: #d4d4d8;
-            --shadow-color: #18181b;
-            --bubble-left-bg: #e4e4e7;
+            
+            /* MODE TERANG: Background abu tua, List/Border hijau */
+            --card-bg: #1e1e22; 
+            --border-color: #0ae448; 
 
-            --halo-c1: var(--text-main);
-            --halo-c2: var(--gsap-green-dark);
-            --curve-line1: #057022;
-            --curve-line2: #09090b;
+            --text-main: #ffffff;
+            --text-outer: #111111;
+            --text-outer-sub: #555555;
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --bubble-left-bg: #2e2e36;
+            --halo-c1: #ffffff;
+            --halo-c2: #0ae448;
         }
 
         *{box-sizing:border-box;margin:0;padding:0;font-family:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
         
         body {
             background: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-outer);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -66,23 +60,23 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* --- NAVIGASI ATAS --- */
         .top-left-nav { position: absolute; top: 25px; left: 25px; z-index: 20; }
         .top-right-nav { position: absolute; top: 25px; right: 25px; z-index: 20; }
 
         .logo-text {
-            font-size: 1.35rem; font-weight: 900; color: var(--text-main);
+            font-size: 1.35rem; font-weight: 900; color: var(--text-outer);
             cursor: pointer; perspective: 400px; display: flex; letter-spacing: 0.5px;
+            transition: color 0.5s ease;
         }
         .logo-text span { display: inline-block; transform-style: preserve-3d; }
         
         .theme-btn {
             display: inline-flex; align-items: center; justify-content: center;
-            background: transparent; color: var(--text-main);
+            background: transparent; color: var(--text-outer);
             padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 800;
             text-decoration: none; border: 2px solid var(--border-color);
             letter-spacing: 1.5px; cursor: pointer; backdrop-filter: blur(8px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease, border-color 0.5s ease;
         }
         .theme-dot {
             width: 8px; height: 8px; border-radius: 50%;
@@ -90,32 +84,18 @@
             box-shadow: 0 0 8px var(--gsap-green);
             transition: background 0.3s ease, box-shadow 0.3s ease;
         }
-        .theme-btn:hover { border-color: var(--text-main); transform: translateY(-2px); }
+        .theme-btn:hover { border-color: var(--text-outer); transform: translateY(-2px); }
         .theme-btn:active { transform: translateY(1px); }
 
-        /* =========================================
-           ANIMASI KONEKSI (2 GARIS SAJA)
-           ========================================= */
-        .curve-container {
-            position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
-            width: 320px; height: 160px; z-index: -1; 
-            opacity: 0;
-        }
-        .animated-curve { width: 100%; height: 100%; }
-
-        /* ========================================= */
         .chat-container{display:flex;justify-content:center;align-items:center;gap:45px;margin:145px 0 20px;position:relative;width:100%;max-width:420px}
         
-        /* Foto Karakter Diperbesar */
         .character-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;width:145px;height:185px;z-index:10}
         .img-container{position:relative;width:100%;height:100%;z-index:10;}
         .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .5s ease-in-out}
 
-        /* Animasi mengambang saat karakter diam */
         .float-anim{animation:float 4.2s ease-in-out infinite}
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         
-        /* BUBBLE CHAT - Diberi Jarak Permanen ke Atas agar Tahan Banting Animasi */
         .deco {
             position: absolute; 
             bottom: calc(100% + 65px); 
@@ -136,49 +116,56 @@
         #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 16px; }
         #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 18px; margin-top: -2px; }
 
-        /* Card Utama */
+        /* KOTAK UTAMA SINGLE CHAT BUBBLE */
         .card {
-            position: relative; z-index: 5;
-            background: var(--card-bg); border: 2px solid var(--border-color);
-            padding: 105px 25px 35px; border-radius: 28px; width: 100%; max-width: 480px;
-            text-align: center; margin-top: 15px; box-shadow: 14px 14px 0 var(--shadow-color);
+            position: relative; 
+            z-index: 5;
+            background: var(--card-bg); 
+            border: var(--border-width) solid var(--border-color);
+            padding: 105px 25px 35px; 
+            border-radius: 28px 28px 28px 0; /* Lancip di kiri bawah mengikuti ekor */
+            width: 100%; 
+            max-width: 480px;
+            text-align: center; 
+            margin-top: 15px; 
+            box-shadow: 0 10px 30px var(--shadow-color);
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* EKOR CARD UTAMA (Sesuai Sketsa Garis Merah: Runcing Tajam ke Kiri Bawah) */
+        /* EKOR GELEMBLUNG CHAT (PRESISI DENGAN SVG LAYERING) */
         .card-tail {
             position: absolute;
-            bottom: -24px;
-            left: 28px;
+            bottom: -22px;
+            left: calc(-1 * var(--border-width));
             width: 36px;
-            height: 30px;
-            z-index: -1;
+            height: 22px;
+            z-index: 6;
             pointer-events: none;
-            transition: transform 0.3s ease;
         }
-        .card-tail svg {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-        }
-        .card-tail path {
+        .card-tail svg { width: 100%; height: 100%; display: block; overflow: visible; }
+        .card-tail .tail-fill {
             fill: var(--card-bg);
+            transition: fill 0.5s ease;
+        }
+        .card-tail .tail-stroke {
+            fill: none;
             stroke: var(--border-color);
-            stroke-width: 2.5px;
+            stroke-width: var(--border-width);
             stroke-linejoin: round;
-            transition: fill 0.5s ease, stroke 0.5s ease;
+            stroke-linecap: round;
+            transition: stroke 0.5s ease;
         }
 
+        /* LIS LOGO: ABU DI MODE GELAP, HIJAU DI MODE TERANG */
         .card-logo {
             position:absolute;top:-75px;left:50%;transform:translateX(-50%);
             width:130px;height:130px;background: #000;border-radius:50%;
-            border: 4px solid var(--gsap-green);overflow:hidden;z-index:20;
+            border: 4px solid var(--border-color);overflow:hidden;z-index:20;
             display: flex;align-items: center;justify-content: center;
             box-shadow: 0 10px 0 var(--shadow-color);
-            transition: box-shadow 0.5s ease;
+            transition: border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* Teks HAI KAMU */
         h1 { 
             font-size: 2.5rem; font-weight: 900; margin-bottom: 25px; margin-top: 10px;
             text-transform: uppercase; letter-spacing: 2px; display: flex;
@@ -195,9 +182,6 @@
             transform-origin: center bottom;
         }
 
-        /* =========================================
-           TOMBOL 
-           ========================================= */
         .cta-container { 
             display: flex; justify-content: center; align-items: center;
             width: 100%; position: relative; margin-top: 15px; 
@@ -210,7 +194,7 @@
             position: relative; display: inline-flex; flex-direction: column; 
             align-items: center; justify-content: center; width: 210px;
             padding: 16px 12px; border-radius: 16px; text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.5s ease;
         }
 
         .btn-ipix-tilt { transform: translateX(-8px) translateY(8px) rotate(-3deg); }
@@ -231,6 +215,7 @@
             width: 14px; height: 14px; background: var(--bubble-left-bg);
             border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);
             border-bottom-left-radius: 3px; z-index: 3;
+            transition: border-color 0.5s ease;
         }
 
         .btn-chubby { 
@@ -244,17 +229,13 @@
             border-top-right-radius: 3px; z-index: 3;
         }
 
-        .footer-text { margin-top: 45px; text-align: center; font-size: 0.95rem; font-weight: bold; }
-        .footer-text span { color: var(--text-sub); }
+        .footer-text { margin-top: 45px; text-align: center; font-size: 0.95rem; font-weight: bold; color: var(--text-outer); transition: color 0.5s ease; }
+        .footer-text span { color: var(--text-outer-sub); transition: color 0.5s ease; }
         .footer-link { color: var(--gsap-green); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* =========================================
-           RESPONSIVITAS
-           ========================================= */
         @media (max-width: 576px) {
             .chat-container { gap: 20px; margin-top: 135px; }
             .character-wrapper { width: 115px; height: 150px; }
-            .curve-container { width: 250px; top: 95px; }
             .card { padding: 90px 20px 30px; max-width: 92%; }
             h1 { font-size: 2.0rem; }
         }
@@ -262,11 +243,10 @@
         @media (max-width: 480px) {
             .chat-container { gap: 15px; margin: 110px 0 15px; max-width: 100%; }
             .character-wrapper { width: 100px; height: 130px; }
-            .curve-container { width: 200px; top: 75px; height: 120px; }
             .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 55px); }
             
-            .card { padding: 75px 15px 25px; border-radius: 20px; max-width: 95%; }
-            .card-tail { left: 22px; } 
+            .card { padding: 75px 15px 25px; border-radius: 20px 20px 20px 0; max-width: 95%; }
+            .card-tail { width: 32px; height: 20px; bottom: -18px; }
             
             .card-logo { width: 100px; height: 100px; top: -50px; }
             h1 { font-size: 1.6rem; min-height: 45px; }
@@ -304,18 +284,6 @@
     </div>
 
     <div class="chat-container">
-        <!-- Animasi Garis -->
-        <div class="curve-container" id="connectionCurve">
-            <svg viewBox="0 0 320 160" class="animated-curve" preserveAspectRatio="none">
-                <path id="curvePath1" d="M 30,20 C 30,170 290,170 290,20" fill="none" stroke="var(--curve-line1)" stroke-width="4" stroke-linecap="round" stroke-dasharray="100 600" opacity="0.9">
-                    <animate attributeName="stroke-dashoffset" from="600" to="-200" dur="4.5s" repeatCount="indefinite" />
-                </path>
-                <path id="curvePath2" d="M 30,20 C 30,170 290,170 290,20" fill="none" stroke="var(--curve-line2)" stroke-width="3" stroke-linecap="round" stroke-dasharray="120 600" opacity="0.8">
-                    <animate attributeName="stroke-dashoffset" from="-200" to="600" dur="5.5s" repeatCount="indefinite" />
-                </path>
-            </svg>
-        </div>
-        
         <div class="character-wrapper gsap-char">
             <div class="deco" id="bubbleLeft">...</div>
             <div class="img-container float-anim" id="containerLeft">
@@ -332,11 +300,14 @@
         </div>
     </div>
 
+    <!-- KOTAK UTAMA (SINGLE SPEECH BUBBLE SESUAI GAMBAR) -->
     <div class="card gsap-card">
-        <!-- Ekor Card Tajam ke Kiri Bawah (Sesuai Sketsa Garis Merah) -->
+        
+        <!-- EKOR GELEMBLUNG CHAT (KIRI-BAWAH RAPI) -->
         <div class="card-tail">
-            <svg viewBox="0 0 40 35">
-                <path d="M 12 0 L 0 32 L 32 12 Z" />
+            <svg viewBox="0 0 36 22" overflow="visible">
+                <path class="tail-fill" d="M 2,-4 L 2,18 L 24,2 Z" />
+                <path class="tail-stroke" d="M 2,-4 L 2,18 L 24,2" />
             </svg>
         </div>
 
@@ -387,7 +358,6 @@
                 dot.style.boxShadow = '0 0 8px var(--gsap-green)';
             }
             isDarkMode = !isDarkMode;
-            
             gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: "back.out(2)" });
         }
 
@@ -439,8 +409,6 @@
 
             const tl = gsap.timeline({
                 onComplete: () => {
-                    gsap.to("#connectionCurve", { opacity: 1, duration: 1.5, ease: "power2.inOut" });
-                    
                     gsap.to(haloChars, {
                         scale: 1.08,
                         y: -3,
@@ -500,16 +468,9 @@
             kanan: ["pemanggil_kanan.png", "pemanggil_kanan_2.png", "pemanggil_kanan_3.png", "pemanggil_kanan_4.png"]
         };
 
-        /* Animasi Karakter & Sinkonisasi Kemunculan Garis Mengikuti Foto Membesar */
         function animateCharacter(side) {
             if (animLeft) animLeft.kill();
             if (animRight) animRight.kill();
-
-            // Efek garis menyala/menarik perhatian saat karakter membesar
-            gsap.fromTo("#connectionCurve", 
-                { scale: 0.95, opacity: 0.4 }, 
-                { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" }
-            );
 
             if (side === 'left') {
                 cLeft.classList.remove('float-anim');
@@ -534,7 +495,7 @@
 
         function changeImageCrossFade(side, newSrc) {
             const img1 = document.getElementById(`img${side==='left'?'Left':'Right'}1`);
-            const img2 = document.getElementById(`img${side==='left'?'Left':'Right'}2`);
+            const img2 = document.getElementById(`img${side==='left'?'Right':'Right'}2`);
             if (getComputedStyle(img1).opacity === "1") {
                 img2.src = newSrc; img2.style.opacity = 1; img1.style.opacity = 0;
             } else {
