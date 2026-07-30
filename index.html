@@ -64,11 +64,10 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
-        /* ROOT LAYOUT - Dirombak agar membagi ruang secara adil */
         body {
             background: var(--bg-color); color: var(--text-outer);
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; min-height: 100dvh; /* Adaptif untuk browser HP */
+            min-height: 100vh; min-height: 100dvh;
             overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease;
         }
 
@@ -79,7 +78,6 @@
             padding: 20px 15px;
         }
 
-        /* WRAPPER TENGAH - Ini rahasia agar kartu turun mengisi ruang kosong bawah */
         .main-wrapper {
             flex-grow: 1; display: flex; flex-direction: column;
             justify-content: center; align-items: center; width: 100%;
@@ -110,7 +108,7 @@
         .theme-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--theme-dot-color); margin-right: 8px; box-shadow: 0 0 8px var(--theme-dot-shadow); transition: background 0.3s ease, box-shadow 0.3s ease; }
 
         /* --- Kartu Utama --- */
-        .card-container { position: relative; width: 100%; margin-top: 140px; z-index: 5; }
+        .card-container { position: relative; width: 100%; margin-top: 155px; z-index: 5; }
 
         .card {
             position: relative; background: var(--card-bg); border: var(--border-width) solid var(--border-color);
@@ -119,9 +117,9 @@
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* --- Karakter & Obrolan --- */
-        .chat-container { position: absolute; top: -125px; left: 0; right: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 10; pointer-events: none; }
-        .character-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 138px; height: 168px; pointer-events: auto; }
+        /* --- Karakter & Obrolan (DIPERBESAR SEDIKIT) --- */
+        .chat-container { position: absolute; top: -145px; left: 0; right: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 5px; z-index: 10; pointer-events: none; }
+        .character-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 155px; height: 188px; pointer-events: auto; }
         .img-container { position: relative; width: 100%; height: 100%; z-index: 10; }
         .person-img { position: absolute; top: 0; left: 0; width: 100%; height: auto; transition: opacity .4s ease-in-out; }
         .flipped-blue { transform: scaleX(-1); }
@@ -130,10 +128,10 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
         .deco {
-            position: absolute; bottom: calc(100% + 5px); border-radius: 12px; padding: 8px 12px;
-            display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; 
-            text-align: center; max-width: 150px; white-space: normal; word-break: break-word;
-            box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 32px; z-index: 12;
+            position: absolute; bottom: calc(100% + 8px); border-radius: 14px; padding: 10px 14px;
+            display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 800; 
+            text-align: center; max-width: 170px; white-space: normal; word-break: break-word;
+            box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 36px; z-index: 12;
             transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
         .deco::before, .deco::after { content: ""; position: absolute; top: 100%; border-style: solid; transition: border-color 0.5s ease; }
@@ -180,7 +178,6 @@
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
 
-        /* KEMIRINGAN TOMBOL AMAN */
         .btn-ipix-tilt { transform: translateX(-6px) translateY(6px) rotate(-3deg); }
         .btn-ipix-tilt:hover { z-index: 10; transform: translateX(-8px) translateY(0px) scale(1.05) rotate(0deg); }
 
@@ -214,26 +211,25 @@
         /* ====== RESPONSIVE BREAKPOINTS ====== */
         @media (max-width: 576px) {
             .page-wrapper { max-width: 92%; }
-            .character-wrapper { width: 115px; height: 140px; }
-            .chat-container { top: -110px; padding: 0 12px; }
+            .character-wrapper { width: 132px; height: 160px; }
+            .chat-container { top: -130px; padding: 0 6px; }
             h1 { font-size: 1.8rem; }
         }
 
         @media (max-width: 480px) {
             .page-wrapper { max-width: 95%; padding-top: 15px; } 
             
-            .card-container { margin-top: 120px; } 
+            .card-container { margin-top: 145px; } 
             .card { padding: 65px 15px 25px; border-radius: 18px 18px 18px 0; box-shadow: 8px 8px 0 var(--border-color), 0 10px 25px var(--shadow-color); }
             
-            .chat-container { top: -100px; padding: 0 8px; }
-            .character-wrapper { width: 100px; height: 122px; } 
+            .chat-container { top: -122px; padding: 0 4px; }
+            .character-wrapper { width: 120px; height: 146px; } 
             
-            .deco { font-size: 10px; padding: 6px 10px; bottom: calc(100% + 5px); max-width: 130px; }
+            .deco { font-size: 11.5px; padding: 8px 12px; bottom: calc(100% + 6px); max-width: 145px; }
             .card-tail { width: 35px; height: 25px; bottom: -24px; }
             .card-logo { width: 85px; height: 85px; top: -42px; }
             h1 { font-size: 1.4rem; min-height: 38px; margin-bottom: 15px; margin-top: 0; }
             
-            /* Jarak aman antar tombol yang ditumpuk sambil tetap dipertahankan miringnya */
             .cta-container { flex-direction: column; gap: 18px; margin-top: 10px; }
             .btn-wrapper-left { margin-right: 0; margin-bottom: 0; }
             .btn-wrapper-right { margin-left: 0; }
@@ -253,7 +249,7 @@
             </button>
         </header>
 
-        <!-- WRAPPER PENYELAMAT: Ini yang akan menarik elemen pas ke tengah secara proporsional -->
+        <!-- WRAPPER TENGAH -->
         <div class="main-wrapper">
             <div class="card-container">
                 <div class="card gsap-card">
@@ -313,7 +309,6 @@
         </div>
     </div>
 
-    <!-- LOGIKA JAVASCRIPT TETAP UTUH TIDAK ADA YANG DIUBAH -->
     <script>
         let isDarkMode = true;
         function toggleTheme() {
@@ -423,7 +418,7 @@
                 case 2: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Kamu apa kabar ?"); animateCharacter('right'); delay(1550).then(()=>{step=3;updateConversation()}); break;
                 case 3: changeImageCrossFade('left',daftarFoto.kiri[2]); showBubble(bLeft, "Baik"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1250).then(()=>{step=4;updateConversation()}); break;
                 case 4: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Apa kabar kamu ?"); animateCharacter('left'); delay(1650).then(()=>{step=5;updateConversation()}); break;
-                case 5: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Baik juga"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=6;updateConversation()}); break;
+                case 5: changeImageCharacter = changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Baik juga"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=6;updateConversation()}); break;
                 case 6: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Tinggal dimana?"); animateCharacter('right'); delay(1600).then(()=>{step=7;updateConversation()}); break;
                 case 7: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Dihatimuuu"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1750).then(()=>{step=8;updateConversation()}); break;
                 case 8: changeImageCrossFade('right',daftarFoto.kanan[2]); showBubble(bRight, "Hoooeeekkk"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=9;updateConversation()}); break;
