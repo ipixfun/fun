@@ -14,7 +14,7 @@
             --gsap-green-dark: #057022;
             --bg-color: #000000;
             
-            /* MODE GELAP: Background abu tua, List/Border abu-abu */
+            /* MODE GELAP */
             --card-bg: #1e1e22; 
             --border-color: #55555d; 
             --border-width: 4px;
@@ -26,12 +26,26 @@
             --bubble-left-bg: #2a2a30; 
             --halo-c1: #ffffff;
             --halo-c2: var(--gsap-green);
+
+            /* WARNA TOMBOL TENGAH MODE GELAP */
+            --btn-left-bg: #2a2a30;
+            --btn-left-text: #ffffff;
+            --btn-left-border: var(--border-color);
+            --btn-left-shadow: #000000;
+
+            --btn-right-bg: var(--gsap-green);
+            --btn-right-text: #000000;
+            --btn-right-border: var(--gsap-green-dark);
+            --btn-right-shadow: var(--gsap-green-dark);
+            
+            --theme-dot-color: #0ae448;
+            --theme-dot-shadow: #0ae448;
         }
 
         [data-theme="light"] {
             --bg-color: #f4f4f5;
             
-            /* MODE TERANG: Background abu tua, List/Border hijau */
+            /* MODE TERANG */
             --card-bg: #1e1e22; 
             --border-color: #0ae448; 
 
@@ -42,6 +56,20 @@
             --bubble-left-bg: #2e2e36;
             --halo-c1: #ffffff;
             --halo-c2: #0ae448;
+
+            /* WARNA TOMBOL TENGAH MODE TERANG */
+            --btn-left-bg: #2e2e36;
+            --btn-left-text: #ffffff;
+            --btn-left-border: #0ae448;
+            --btn-left-shadow: rgba(0, 0, 0, 0.25);
+
+            --btn-right-bg: #0ae448;
+            --btn-right-text: #000000;
+            --btn-right-border: #057022;
+            --btn-right-shadow: #057022;
+
+            --theme-dot-color: #ffffff;
+            --theme-dot-shadow: #ffffff;
         }
 
         *{box-sizing:border-box;margin:0;padding:0;font-family:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
@@ -70,53 +98,38 @@
         }
         .logo-text span { display: inline-block; transform-style: preserve-3d; }
         
+        /* TOMBOL TEMA PILL CHAT */
         .theme-btn {
             display: inline-flex; align-items: center; justify-content: center;
-            background: transparent; color: var(--text-outer);
-            padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 800;
+            background: var(--card-bg); color: var(--text-outer);
+            padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;
             text-decoration: none; border: 2px solid var(--border-color);
-            letter-spacing: 1.5px; cursor: pointer; backdrop-filter: blur(8px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease, border-color 0.5s ease;
+            letter-spacing: 1.5px; cursor: pointer; position: relative;
+            box-shadow: 4px 4px 0 var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease, background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
+        .theme-btn::after {
+            content: ''; position: absolute; bottom: -6px; right: 20px;
+            width: 10px; height: 10px; background: var(--card-bg);
+            border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);
+            border-bottom-right-radius: 2px; transform: rotate(45deg);
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+        .theme-btn:hover {
+            transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border-color);
+        }
+        .theme-btn:active {
+            transform: translateY(2px); box-shadow: 2px 2px 0 var(--border-color);
+        }
+        
         .theme-dot {
             width: 8px; height: 8px; border-radius: 50%;
-            background-color: var(--gsap-green); margin-right: 8px;
-            box-shadow: 0 0 8px var(--gsap-green);
+            background-color: var(--theme-dot-color); margin-right: 8px;
+            box-shadow: 0 0 8px var(--theme-dot-shadow);
             transition: background 0.3s ease, box-shadow 0.3s ease;
         }
-        .theme-btn:hover { border-color: var(--text-outer); transform: translateY(-2px); }
-        .theme-btn:active { transform: translateY(1px); }
 
-        .chat-container{display:flex;justify-content:center;align-items:center;gap:45px;margin:145px 0 20px;position:relative;width:100%;max-width:420px}
-        
-        .character-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;width:145px;height:185px;z-index:10}
-        .img-container{position:relative;width:100%;height:100%;z-index:10;}
-        .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .4s ease-in-out}
-
-        .float-anim{animation:float 4.2s ease-in-out infinite}
-        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-        
-        .deco {
-            position: absolute; 
-            bottom: calc(100% + 65px); 
-            border-radius: 12px; padding: 6px 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 700; white-space: nowrap;
-            box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 32px; z-index: 12;
-            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
-        }
-        
-        .deco::before, .deco::after { content: ""; position: absolute; top: 100%; border-style: solid; transition: border-color 0.5s ease; }
-
-        #bubbleLeft { background: var(--bubble-left-bg); color: var(--text-main); border: 2px solid var(--border-color); }
-        #bubbleLeft::before { border-width: 10px 12px 0 0; border-color: var(--border-color) transparent transparent transparent; left: 16px; }
-        #bubbleLeft::after { border-width: 7px 9px 0 0; border-color: var(--bubble-left-bg) transparent transparent transparent; left: 18px; margin-top: -2px; }
-
-        #bubbleRight { background: var(--gsap-green); color: #000; border: 2px solid var(--gsap-green-dark); }
-        #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 16px; }
-        #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 18px; margin-top: -2px; }
-
-        /* KOTAK UTAMA KEMBALI SEPERTI SEMULA + SHADOW 3D PADAT */
+        /* KOTAK UTAMA */
         .card {
             position: relative; 
             z-index: 5;
@@ -127,19 +140,78 @@
             width: 100%; 
             max-width: 480px;
             text-align: center; 
-            margin-top: 15px; 
-            /* SHADOW UNTUK OUTLINE KANAN DAN BAWAH */
+            margin-top: 180px; 
             box-shadow: 12px 12px 0 var(--border-color), 0 15px 30px var(--shadow-color);
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* EKOR GELEMBLUNG CHAT KEMBALI SEPERTI SEMULA DAN DINAMIS */
+        .chat-container {
+            position: absolute;
+            top: -160px; 
+            left: 0; right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px; 
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .character-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 145px;
+            height: 185px;
+            pointer-events: auto;
+        }
+        .img-container{position:relative;width:100%;height:100%;z-index:10;}
+        .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .4s ease-in-out}
+
+        .float-anim{animation:float 4.2s ease-in-out infinite}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        
+        /* BUBBLE CHAT DIGESER KE LUAR & ATAS AGAR TIDAK NABRAK */
+        .deco {
+            position: absolute; 
+            bottom: calc(100% + 12px); 
+            border-radius: 12px; padding: 6px 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; white-space: nowrap;
+            box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 32px; z-index: 12;
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+        
+        .deco::before, .deco::after { content: ""; position: absolute; top: 100%; border-style: solid; transition: border-color 0.5s ease; }
+
+        /* Bubble Kiri digeser sedikit ke arah luar (kiri) */
+        #bubbleLeft { 
+            background: var(--bubble-left-bg); 
+            color: var(--text-main); 
+            border: 2px solid var(--border-color); 
+            left: -15px; 
+        }
+        #bubbleLeft::before { border-width: 10px 12px 0 0; border-color: var(--border-color) transparent transparent transparent; left: 24px; }
+        #bubbleLeft::after { border-width: 7px 9px 0 0; border-color: var(--bubble-left-bg) transparent transparent transparent; left: 26px; margin-top: -2px; }
+
+        /* Bubble Kanan digeser sedikit ke arah luar (kanan) */
+        #bubbleRight { 
+            background: var(--gsap-green); 
+            color: #000; 
+            border: 2px solid var(--gsap-green-dark); 
+            right: -15px; 
+        }
+        #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 24px; }
+        #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 26px; margin-top: -2px; }
+
+        /* EKOR SEGITIGA BAWAH KOTAK UTAMA */
         .card-tail {
             position: absolute;
-            bottom: -22px;
+            bottom: -36px;
             left: calc(-1 * var(--border-width));
-            width: 36px;
-            height: 22px;
+            width: 50px;
+            height: 38px;
             z-index: 6;
             pointer-events: none;
         }
@@ -157,7 +229,6 @@
             transition: stroke 0.5s ease;
         }
 
-        /* LIS LOGO */
         .card-logo {
             position:absolute;top:-75px;left:50%;transform:translateX(-50%);
             width:130px;height:130px;background: #000;border-radius:50%;
@@ -177,11 +248,7 @@
         .char { display: inline-block; transform-style: preserve-3d; transition: color 0.5s ease; }
         .char-c1 { color: var(--halo-c1); }
         .char-c2 { color: var(--halo-c2); text-shadow: 0 0 12px rgba(10, 228, 72, 0.4); }
-
-        .brutal-symbol {
-            display: inline-block;
-            transform-origin: center bottom;
-        }
+        .brutal-symbol { display: inline-block; transform-origin: center bottom; }
 
         .cta-container { 
             display: flex; justify-content: center; align-items: center;
@@ -195,7 +262,7 @@
             position: relative; display: inline-flex; flex-direction: column; 
             align-items: center; justify-content: center; width: 210px;
             padding: 16px 12px; border-radius: 16px; text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.5s ease;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
 
         .btn-ipix-tilt { transform: translateX(-8px) translateY(8px) rotate(-3deg); }
@@ -207,27 +274,34 @@
         .btn-title { font-size: 1.05rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
         .btn-sub { font-size: 0.75rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.5px; text-transform: lowercase; }
 
+        /* TOMBOL TENGAH 1 (Gaya Balon Chat 3D Dinamis) */
         .btn-ipix { 
-            background: var(--bubble-left-bg); color: var(--text-main); 
-            border: 2px solid var(--border-color); box-shadow: 0 8px 0 var(--shadow-color); 
+            background: var(--btn-left-bg); 
+            color: var(--btn-left-text); 
+            border: 2px solid var(--btn-left-border); 
+            box-shadow: 0 8px 0 var(--btn-left-shadow); 
         }
         .btn-ipix::before {
             content: ''; position: absolute; top: 50%; left: -7px; transform: translateY(-50%) rotate(45deg);
-            width: 14px; height: 14px; background: var(--bubble-left-bg);
-            border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);
-            border-bottom-left-radius: 3px; z-index: 3;
-            transition: border-color 0.5s ease;
+            width: 14px; height: 14px; background: var(--btn-left-bg);
+            border-bottom: 2px solid var(--btn-left-border); border-left: 2px solid var(--btn-left-border);
+            border-bottom-left-radius: 3px; z-index: 3; 
+            transition: background 0.5s ease, border-color 0.5s ease;
         }
 
+        /* TOMBOL TENGAH 2 (Gaya Balon Chat 3D Dinamis) */
         .btn-chubby { 
-            background: var(--gsap-green); color: #000; 
-            border: 2px solid var(--gsap-green-dark); box-shadow: 0 8px 0 var(--gsap-green-dark); 
+            background: var(--btn-right-bg); 
+            color: var(--btn-right-text); 
+            border: 2px solid var(--btn-right-border); 
+            box-shadow: 0 8px 0 var(--btn-right-shadow); 
         }
         .btn-chubby::before {
             content: ''; position: absolute; top: 50%; right: -7px; transform: translateY(-50%) rotate(45deg);
-            width: 14px; height: 14px; background: var(--gsap-green);
-            border-top: 2px solid var(--gsap-green-dark); border-right: 2px solid var(--gsap-green-dark);
+            width: 14px; height: 14px; background: var(--btn-right-bg);
+            border-top: 2px solid var(--btn-right-border); border-right: 2px solid var(--btn-right-border);
             border-top-right-radius: 3px; z-index: 3;
+            transition: background 0.5s ease, border-color 0.5s ease;
         }
 
         .footer-text { margin-top: 45px; text-align: center; font-size: 0.95rem; font-weight: bold; color: var(--text-outer); transition: color 0.5s ease; }
@@ -235,23 +309,25 @@
         .footer-link { color: var(--gsap-green); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 
         @media (max-width: 576px) {
-            .chat-container { gap: 20px; margin-top: 135px; }
+            .card { margin-top: 170px; padding: 90px 20px 30px; max-width: 92%; }
             .character-wrapper { width: 115px; height: 150px; }
-            .card { padding: 90px 20px 30px; max-width: 92%; }
+            .chat-container { top: -130px; padding: 0 10px; }
             h1 { font-size: 2.0rem; }
         }
         
         @media (max-width: 480px) {
-            .chat-container { gap: 15px; margin: 110px 0 15px; max-width: 100%; }
-            .character-wrapper { width: 100px; height: 130px; }
-            .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 55px); }
-            
             .card { 
+                margin-top: 145px;
                 padding: 75px 15px 25px; border-radius: 20px 20px 20px 0; max-width: 95%; 
-                /* SHADOW UKURAN DISESUAIKAN UNTUK MOBILE */
                 box-shadow: 8px 8px 0 var(--border-color), 0 10px 25px var(--shadow-color);
             }
-            .card-tail { width: 32px; height: 20px; bottom: -18px; }
+            .chat-container { top: -115px; padding: 0 8px; }
+            .character-wrapper { width: 100px; height: 130px; }
+            .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 10px); }
+            #bubbleLeft { left: -5px; }
+            #bubbleRight { right: -5px; }
+            
+            .card-tail { width: 40px; height: 28px; bottom: -26px; }
             
             .card-logo { width: 100px; height: 100px; top: -50px; }
             h1 { font-size: 1.6rem; min-height: 45px; }
@@ -268,10 +344,10 @@
         }
 
         @media (max-width: 360px) {
+            .chat-container { top: -95px; }
             .character-wrapper { width: 85px; height: 110px; }
             .card-logo { width: 90px; height: 90px; top: -45px; }
             h1 { font-size: 1.4rem; }
-            .deco { bottom: calc(100% + 45px); }
         }
     </style>
 </head>
@@ -288,31 +364,30 @@
         </button>
     </div>
 
-    <div class="chat-container">
-        <div class="character-wrapper gsap-char">
-            <div class="deco" id="bubbleLeft">...</div>
-            <div class="img-container float-anim" id="containerLeft">
-                <img src="pemanggil_kiri_3.png" id="imgLeft1" class="person-img" style="opacity:1" alt="">
-                <img src="pemanggil_kiri.png" id="imgLeft2" class="person-img" style="opacity:0" alt="">
-            </div>
-        </div>
-        <div class="character-wrapper gsap-char">
-            <div class="deco" id="bubbleRight">...</div>
-            <div class="img-container float-anim" id="containerRight">
-                <img src="pemanggil_kanan.png" id="imgRight1" class="person-img" style="opacity:1" alt="">
-                <img src="pemanggil_kanan_4.png" id="imgRight2" class="person-img" style="opacity:0" alt="">
-            </div>
-        </div>
-    </div>
-
     <!-- KOTAK UTAMA -->
     <div class="card gsap-card">
         
-        <!-- EKOR GELEMBLUNG CHAT (SEPERTI ASLI DAN DINAMIS) -->
+        <div class="chat-container">
+            <div class="character-wrapper gsap-char">
+                <div class="deco" id="bubbleLeft">...</div>
+                <div class="img-container float-anim" id="containerLeft">
+                    <img src="pemanggil_kiri_3.png" id="imgLeft1" class="person-img" style="opacity:1" alt="">
+                    <img src="pemanggil_kiri.png" id="imgLeft2" class="person-img" style="opacity:0" alt="">
+                </div>
+            </div>
+            <div class="character-wrapper gsap-char">
+                <div class="deco" id="bubbleRight">...</div>
+                <div class="img-container float-anim" id="containerRight">
+                    <img src="pemanggil_kanan.png" id="imgRight1" class="person-img" style="opacity:1" alt="">
+                    <img src="pemanggil_kanan_4.png" id="imgRight2" class="person-img" style="opacity:0" alt="">
+                </div>
+            </div>
+        </div>
+
         <div class="card-tail">
-            <svg viewBox="0 0 36 22" overflow="visible">
-                <path class="tail-fill" d="M 2,-4 L 2,18 L 24,2 Z" />
-                <path class="tail-stroke" d="M 2,-4 L 2,18 L 24,2" />
+            <svg viewBox="0 0 50 38" overflow="visible">
+                <path class="tail-fill" d="M 2,-4 L 2,34 L 46,2 Z" />
+                <path class="tail-stroke" d="M 2,-4 L 2,34 L 46,2" />
             </svg>
         </div>
 
@@ -340,7 +415,7 @@
 
     <div class="footer-text gsap-footer">
         <span>aug 2026 | </span>
-        <a href="https://ipix.fun" class="footer-link">ipix.my.id</a>
+        <a href="https://ipix.my.id" class="footer-link">ipix.my.id</a>
     </div>
 
     <script>
@@ -349,18 +424,13 @@
             const body = document.body;
             const btn = document.querySelector('.theme-btn');
             const label = document.getElementById('themeLabel');
-            const dot = document.getElementById('themeDot');
             
             if (isDarkMode) {
                 body.setAttribute('data-theme', 'light');
                 label.innerText = 'DARK';
-                dot.style.backgroundColor = '#111';
-                dot.style.boxShadow = '0 0 8px #111';
             } else {
                 body.removeAttribute('data-theme');
                 label.innerText = 'LIGHT';
-                dot.style.backgroundColor = 'var(--gsap-green)';
-                dot.style.boxShadow = '0 0 8px var(--gsap-green)';
             }
             isDarkMode = !isDarkMode;
             gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: "back.out(2)" });
@@ -446,15 +516,11 @@
 
             tl.from(".gsap-nav", { y: -20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)" })
               .from(logoSpans, { rotationX: 180, y: -20, opacity: 0, duration: 0.8, stagger: 0.05, ease: "back.out(2)" }, "-=0.4")
-              .from(".gsap-char", { scale: 0, rotation: 10, opacity: 0, duration: 0.8, stagger: 0.2, ease: "elastic.out(1, 0.5)" }, "-=0.6")
-              .from(".gsap-footer", { opacity: 0, duration: 0.5 }, "-=0.5")
               .from(".gsap-card", { y: 60, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+              .from(".gsap-char", { scale: 0, rotation: 10, opacity: 0, duration: 0.8, stagger: 0.2, ease: "elastic.out(1, 0.5)" }, "-=0.4")
+              .from(".gsap-footer", { opacity: 0, duration: 0.5 }, "-=0.5")
               .from(".gsap-logo", { scale: 0, rotation: -180, duration: 0.8, ease: "back.out(1.5)" }, "-=0.3")
-              .from(haloChars, {
-                  scale: 0, opacity: 0, duration: 0.6,
-                  stagger: { each: 0.05, from: "start" },
-                  ease: "back.out(2.5)"
-              }, "-=0.2")
+              .from(haloChars, { scale: 0, opacity: 0, duration: 0.6, stagger: { each: 0.05, from: "start" }, ease: "back.out(2.5)" }, "-=0.2")
               .from(".gsap-btn-left", { x: -200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "-=0.2")
               .from(".gsap-btn-right", { x: 200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "<");
               
@@ -498,23 +564,14 @@
             }
         }
 
-        /* 
-         BUG DIPERBAIKI: 
-         - Sebelumnya ada typo mengambil ID gambar yang salah (mengambil 'Right' ketika harusnya 'Left')
-         - Sekarang ID sudah secara presisi ditargetkan 
-        */
         function changeImageCrossFade(side, newSrc) {
             const img1 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}1`);
             const img2 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}2`);
             
             if (img1.style.opacity === "1" || getComputedStyle(img1).opacity === "1") {
-                img2.src = newSrc;
-                img2.style.opacity = 1;
-                img1.style.opacity = 0;
+                img2.src = newSrc; img2.style.opacity = 1; img1.style.opacity = 0;
             } else {
-                img1.src = newSrc;
-                img1.style.opacity = 1;
-                img2.style.opacity = 0;
+                img1.src = newSrc; img1.style.opacity = 1; img2.style.opacity = 0;
             }
         }
 
