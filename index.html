@@ -38,6 +38,9 @@
             
             --theme-dot-color: #0ae448;
             --theme-dot-shadow: #0ae448;
+
+            /* Variabel default untuk background logo */
+            --logo-bg: #000000;
         }
 
         [data-theme="light"] {
@@ -58,6 +61,9 @@
             --btn-right-shadow: #057022;
             --theme-dot-color: #ffffff;
             --theme-dot-shadow: #ffffff;
+
+            /* Mengubah background logo menjadi hijau saat tema terang */
+            --logo-bg: #0ae448; 
         }
 
         [data-theme="light"] #themeLabel { color: var(--gsap-green); }
@@ -117,7 +123,7 @@
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* --- Karakter & Obrolan (DIPERBESAR SEDIKIT) --- */
+        /* --- Karakter & Obrolan --- */
         .chat-container { position: absolute; top: -145px; left: 0; right: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 5px; z-index: 10; pointer-events: none; }
         .character-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 155px; height: 188px; pointer-events: auto; }
         .img-container { position: relative; width: 100%; height: 100%; z-index: 10; }
@@ -152,8 +158,9 @@
 
         .card-logo {
             position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 100px; background: #000; border-radius: 50%; border: 4px solid var(--border-color);
-            overflow: hidden; z-index: 20; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 var(--shadow-color); transition: border-color 0.5s ease, box-shadow 0.5s ease;
+            width: 100px; height: 100px; background: var(--logo-bg); border-radius: 50%; border: 4px solid var(--border-color);
+            overflow: hidden; z-index: 20; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 var(--shadow-color); 
+            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
         /* --- Tipografi & Tombol --- */
