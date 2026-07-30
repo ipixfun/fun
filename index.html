@@ -4,162 +4,326 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ipix.my.id | iPixChaT</title>
+    
+    <!-- Crisp Chat -->
     <script>window.$crisp=[];window.CRISP_WEBSITE_ID="a23603f3-1d3e-4482-9304-f23df40093df";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.head.appendChild(s)})();</script>
+    
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
+        /* =========================================
+           SISTEM WARNA DINAMIS (DARK / LIGHT MODE) 
+           ========================================= */
+        :root {
+            --gsap-green: #0ae448;
+            --gsap-green-dark: #057022;
+
+            /* Default: Dark Mode */
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-sub: #999999;
+            --border-color: #333333;
+            --shadow-color: #000000;
+            --bubble-left-bg: #222222; 
+            
+            --halo-c1: var(--text-main);
+            --halo-c2: var(--gsap-green);
+            --curve-line1: #ffffff;
+            --curve-line2: var(--gsap-green);
+        }
+
+        [data-theme="light"] {
+            /* Light Mode */
+            --bg-color: #f4f4f5;
+            --card-bg: #ffffff;
+            --text-main: #09090b;
+            --text-sub: #52525b;
+            --border-color: #d4d4d8;
+            --shadow-color: #18181b;
+            --bubble-left-bg: #e4e4e7;
+
+            --halo-c1: var(--text-main);
+            --halo-c2: var(--gsap-green-dark);
+            --curve-line1: #057022;
+            --curve-line2: #09090b;
+        }
+
         *{box-sizing:border-box;margin:0;padding:0;font-family:'-apple-system',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-        body{background:#0b0f19;color:#f3f4f6;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;padding:20px;overflow-x:hidden;position:relative}
-
-        .top-left-nav{position:absolute;top:20px;left:20px;z-index:20}
-        .top-right-nav{position:absolute;top:20px;right:20px;z-index:20}
         
-        .pill-link{
-            display:inline-block;
-            background:rgba(255,255,255,.05);
-            color:#fff;
-            padding:8px 20px;
-            border-radius:50px;
-            font-size:.9rem;
-            font-weight:600;
-            text-decoration:none;
-            border:1px solid rgba(255,255,255,.1);
-            backdrop-filter:blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            outline: none;
-        }
-        .pill-link:hover{
-            transform:scale(1.08);
-            background:rgba(255,255,255,.15);
-        }
-        .pill-link:active{
-            transform:scale(0.98);
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
-        .curve {
-            position: absolute;
-            top: 125px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 260px;
-            height: 60px;
-            border: 3px solid #22d3ee;
-            border-radius: 50%;
-            border-top: none;
-            z-index: -1;
-            opacity: 0.85;
-        }
+        /* --- NAVIGASI ATAS --- */
+        .top-left-nav { position: absolute; top: 25px; left: 25px; z-index: 20; }
+        .top-right-nav { position: absolute; top: 25px; right: 25px; z-index: 20; }
 
-        .chat-container{display:flex;justify-content:center;align-items:center;gap:35px;margin:35px 0 20px;position:relative;width:100%;max-width:400px}
-        .character-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;width:125px;height:160px;z-index:10}
-        .img-container{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(0.34,1.56,0.64,1)}
+        .logo-text {
+            font-size: 1.35rem; font-weight: 900; color: var(--text-main);
+            cursor: pointer; perspective: 400px; display: flex; letter-spacing: 0.5px;
+        }
+        .logo-text span { display: inline-block; transform-style: preserve-3d; }
+        
+        .theme-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: transparent; color: var(--text-main);
+            padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 800;
+            text-decoration: none; border: 2px solid var(--border-color);
+            letter-spacing: 1.5px; cursor: pointer; backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .theme-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background-color: var(--gsap-green); margin-right: 8px;
+            box-shadow: 0 0 8px var(--gsap-green);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .theme-btn:hover { border-color: var(--text-main); transform: translateY(-2px); }
+        .theme-btn:active { transform: translateY(1px); }
+
+        /* =========================================
+           ANIMASI KONEKSI (2 GARIS SAJA)
+           ========================================= */
+        .curve-container {
+            position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
+            width: 320px; height: 160px; z-index: -1; 
+            opacity: 0;
+        }
+        .animated-curve { width: 100%; height: 100%; }
+
+        /* ========================================= */
+        .chat-container{display:flex;justify-content:center;align-items:center;gap:45px;margin:145px 0 20px;position:relative;width:100%;max-width:420px}
+        
+        /* Foto Karakter Diperbesar */
+        .character-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;width:145px;height:185px;z-index:10}
+        .img-container{position:relative;width:100%;height:100%;z-index:10;}
         .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .5s ease-in-out}
 
+        /* Animasi mengambang saat karakter diam */
         .float-anim{animation:float 4.2s ease-in-out infinite}
-        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-
-        .active-move{transform:scale(1.18) translateY(-15px);animation:softSway 3.8s ease-in-out infinite}
-        @keyframes softSway{0%,100%{transform:scale(1.18) translateY(-15px) rotate(0deg)}25%{transform:scale(1.18) translateY(-10px) rotate(2deg)}50%{transform:scale(1.18) translateY(-20px) rotate(-1.5deg)}75%{transform:scale(1.18) translateY(-13px) rotate(1.8deg)}}
-
-        .deco{position:absolute;top:-55px;border-radius:50px;padding:7px 16px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;white-space:nowrap;animation:floatBubble 3.6s ease-in-out infinite;box-shadow:0 4px 15px rgba(0,0,0,.4);opacity:0;min-height:32px;z-index:12}
-        @keyframes floatBubble{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-
-        #bubbleLeft{background:rgba(74,222,128,.25);color:#4ade80;border:1px solid rgba(74,222,128,.7)}
-        #bubbleRight{background:rgba(34,211,238,.25);color:#67e8f9;border:1px solid rgba(34,211,238,.7)}
-
-        .card{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);padding:85px 30px 45px;border-radius:28px;width:90%;max-width:460px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.5);margin-top:20px}
-
-        .card-logo{
-            position:absolute;
-            top:-68px;
-            left:50%;
-            transform:translateX(-50%);
-            width:125px;
-            height:125px;
-            background:#0b0f19;
-            border-radius:50%;
-            border:5px solid transparent;
-            background-image: linear-gradient(#0b0f19, #0b0f19), linear-gradient(90deg,#22c55e,#06b6d4);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            overflow:hidden;
-            z-index:20;
-            box-shadow:0 10px 30px rgba(0,0,0,.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.6s ease;
-            animation: logoSpin 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        
+        /* BUBBLE CHAT - Diberi Jarak Permanen ke Atas agar Tahan Banting Animasi */
+        .deco {
+            position: absolute; 
+            bottom: calc(100% + 65px); 
+            border-radius: 12px; padding: 6px 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; white-space: nowrap;
+            box-shadow: 4px 4px 0 var(--shadow-color); opacity: 0; min-height: 32px; z-index: 12;
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
-        .card-logo:hover{
-            transform:translateX(-50%) scale(1.05);
+        
+        .deco::before, .deco::after { content: ""; position: absolute; top: 100%; border-style: solid; transition: border-color 0.5s ease; }
+
+        #bubbleLeft { background: var(--bubble-left-bg); color: var(--text-main); border: 2px solid var(--border-color); }
+        #bubbleLeft::before { border-width: 10px 12px 0 0; border-color: var(--border-color) transparent transparent transparent; left: 16px; }
+        #bubbleLeft::after { border-width: 7px 9px 0 0; border-color: var(--bubble-left-bg) transparent transparent transparent; left: 18px; margin-top: -2px; }
+
+        #bubbleRight { background: var(--gsap-green); color: #000; border: 2px solid var(--gsap-green-dark); }
+        #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 16px; }
+        #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 18px; margin-top: -2px; }
+
+        /* Card Utama */
+        .card {
+            position: relative; z-index: 5;
+            background: var(--card-bg); border: 2px solid var(--border-color);
+            padding: 105px 25px 35px; border-radius: 28px; width: 100%; max-width: 480px;
+            text-align: center; margin-top: 15px; box-shadow: 14px 14px 0 var(--shadow-color);
+            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
-        .card-logo::before {
-            content: '';
+
+        /* EKOR CARD UTAMA (Sesuai Sketsa Garis Merah: Runcing Tajam ke Kiri Bawah) */
+        .card-tail {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 3px solid rgba(34,211,238,0.5);
-            border-radius: 50%;
+            bottom: -24px;
+            left: 28px;
+            width: 36px;
+            height: 30px;
             z-index: -1;
-            animation: ringPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            transition: transform 0.3s ease;
         }
-        @keyframes ringPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.08); }
+        .card-tail svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .card-tail path {
+            fill: var(--card-bg);
+            stroke: var(--border-color);
+            stroke-width: 2.5px;
+            stroke-linejoin: round;
+            transition: fill 0.5s ease, stroke 0.5s ease;
         }
 
-        @keyframes logoSpin {
-            0% { transform: translateX(-50%) rotate(0deg); }
-            100% { transform: translateX(-50%) rotate(360deg); }
+        .card-logo {
+            position:absolute;top:-75px;left:50%;transform:translateX(-50%);
+            width:130px;height:130px;background: #000;border-radius:50%;
+            border: 4px solid var(--gsap-green);overflow:hidden;z-index:20;
+            display: flex;align-items: center;justify-content: center;
+            box-shadow: 0 10px 0 var(--shadow-color);
+            transition: box-shadow 0.5s ease;
         }
 
-        .fade-text{opacity:0;animation:fadeInUp 1s ease forwards;animation-delay:.5s}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-
-        .typing-cursor{border-right:2.5px solid #22d3ee;animation:blink-caret .8s step-end infinite}
-        @keyframes blink-caret{from,to{border-color:transparent}50%{border-color:#22d3ee}}
-
-        h1{font-size:1.65rem;font-weight:700;margin-bottom:10px;color:#fff}
-        #typing-text{font-size:1.05rem;color:#a1a1aa;line-height:1.5;margin-bottom:28px;min-height:1.6em}
-
-        .cta-btn{
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            width:100%;
-            padding:16px 20px;
-            color:#000;
-            border:none;
-            border-radius:16px;
-            font-size:1.05rem;
-            font-weight:700;
-            cursor:pointer;
-            background:linear-gradient(90deg,#22c55e,#06b6d4);
-            text-decoration:none;
-            margin-top:5px;
-            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        /* Teks HAI KAMU */
+        h1 { 
+            font-size: 2.5rem; font-weight: 900; margin-bottom: 25px; margin-top: 10px;
+            text-transform: uppercase; letter-spacing: 2px; display: flex;
+            justify-content: center; align-items: flex-end; 
+            flex-wrap: wrap; gap: 6px; transform: rotate(-2deg); min-height: 55px;
         }
-        .cta-btn:hover{
-            transform: translateY(-4px) scale(1.02);
+        
+        .char { display: inline-block; transform-style: preserve-3d; transition: color 0.5s ease; }
+        .char-c1 { color: var(--halo-c1); }
+        .char-c2 { color: var(--halo-c2); text-shadow: 0 0 12px rgba(10, 228, 72, 0.4); }
+
+        .brutal-symbol {
+            display: inline-block;
+            transform-origin: center bottom;
+        }
+
+        /* =========================================
+           TOMBOL 
+           ========================================= */
+        .cta-container { 
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; position: relative; margin-top: 15px; 
+        }
+        .btn-wrapper { display: inline-block; position: relative; }
+        .btn-wrapper-left { z-index: 5; margin-right: -5px; } 
+        .btn-wrapper-right { z-index: 4; margin-left: -5px; }
+        
+        .cta-btn {
+            position: relative; display: inline-flex; flex-direction: column; 
+            align-items: center; justify-content: center; width: 210px;
+            padding: 16px 12px; border-radius: 16px; text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+
+        .btn-ipix-tilt { transform: translateX(-8px) translateY(8px) rotate(-3deg); }
+        .btn-ipix-tilt:hover { z-index: 10; transform: translateX(-10px) translateY(0px) scale(1.05) rotate(0deg); }
+
+        .btn-chubby-tilt { transform: translateX(8px) translateY(-5px) rotate(2deg); }
+        .btn-chubby-tilt:hover { z-index: 10; transform: translateX(10px) translateY(-10px) scale(1.05) rotate(0deg); }
+
+        .btn-title { font-size: 1.05rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .btn-sub { font-size: 0.75rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.5px; text-transform: lowercase; }
+
+        .btn-ipix { 
+            background: var(--bubble-left-bg); color: var(--text-main); 
+            border: 2px solid var(--border-color); box-shadow: 0 8px 0 var(--shadow-color); 
+        }
+        .btn-ipix::before {
+            content: ''; position: absolute; top: 50%; left: -7px; transform: translateY(-50%) rotate(45deg);
+            width: 14px; height: 14px; background: var(--bubble-left-bg);
+            border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);
+            border-bottom-left-radius: 3px; z-index: 3;
+        }
+
+        .btn-chubby { 
+            background: var(--gsap-green); color: #000; 
+            border: 2px solid var(--gsap-green-dark); box-shadow: 0 8px 0 var(--gsap-green-dark); 
+        }
+        .btn-chubby::before {
+            content: ''; position: absolute; top: 50%; right: -7px; transform: translateY(-50%) rotate(45deg);
+            width: 14px; height: 14px; background: var(--gsap-green);
+            border-top: 2px solid var(--gsap-green-dark); border-right: 2px solid var(--gsap-green-dark);
+            border-top-right-radius: 3px; z-index: 3;
+        }
+
+        .footer-text { margin-top: 45px; text-align: center; font-size: 0.95rem; font-weight: bold; }
+        .footer-text span { color: var(--text-sub); }
+        .footer-link { color: var(--gsap-green); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* =========================================
+           RESPONSIVITAS
+           ========================================= */
+        @media (max-width: 576px) {
+            .chat-container { gap: 20px; margin-top: 135px; }
+            .character-wrapper { width: 115px; height: 150px; }
+            .curve-container { width: 250px; top: 95px; }
+            .card { padding: 90px 20px 30px; max-width: 92%; }
+            h1 { font-size: 2.0rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .chat-container { gap: 15px; margin: 110px 0 15px; max-width: 100%; }
+            .character-wrapper { width: 100px; height: 130px; }
+            .curve-container { width: 200px; top: 75px; height: 120px; }
+            .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 55px); }
+            
+            .card { padding: 75px 15px 25px; border-radius: 20px; max-width: 95%; }
+            .card-tail { left: 22px; } 
+            
+            .card-logo { width: 100px; height: 100px; top: -50px; }
+            h1 { font-size: 1.6rem; min-height: 45px; }
+            
+            .cta-container { flex-direction: column; gap: 10px; margin-top: 15px; }
+            .btn-wrapper-left { margin-right: 0; margin-bottom: 0; }
+            .btn-wrapper-right { margin-left: 0; }
+            
+            .cta-btn { width: 100%; min-width: 250px; }
+            .btn-ipix-tilt { transform: translateX(-5px) translateY(0) rotate(-1deg); }
+            .btn-ipix-tilt:hover { transform: translateX(-5px) translateY(-3px) scale(1.02) rotate(0deg); }
+            .btn-chubby-tilt { transform: translateX(5px) translateY(0) rotate(1deg); }
+            .btn-chubby-tilt:hover { transform: translateX(5px) translateY(-3px) scale(1.02) rotate(0deg); }
+        }
+
+        @media (max-width: 360px) {
+            .character-wrapper { width: 85px; height: 110px; }
+            .card-logo { width: 90px; height: 90px; top: -45px; }
+            h1 { font-size: 1.4rem; }
+            .deco { bottom: calc(100% + 45px); }
         }
     </style>
 </head>
 <body>
-    <div class="top-left-nav"><a href="https://ipix.fun" class="pill-link">iPix.Fun</a></div>
-    <div class="top-right-nav"><a href="https://sukachub.my.id" class="pill-link">sukachub.my.id</a></div>
+    
+    <div class="top-left-nav gsap-nav">
+        <div class="logo-text" id="logoFlipping">iPixChaT</div>
+    </div>
+
+    <div class="top-right-nav gsap-nav">
+        <button class="theme-btn" onclick="toggleTheme()">
+            <span class="theme-dot" id="themeDot"></span> 
+            <span id="themeLabel">LIGHT</span>
+        </button>
+    </div>
 
     <div class="chat-container">
-        <div class="curve"></div>
+        <!-- Animasi Garis -->
+        <div class="curve-container" id="connectionCurve">
+            <svg viewBox="0 0 320 160" class="animated-curve" preserveAspectRatio="none">
+                <path id="curvePath1" d="M 30,20 C 30,170 290,170 290,20" fill="none" stroke="var(--curve-line1)" stroke-width="4" stroke-linecap="round" stroke-dasharray="100 600" opacity="0.9">
+                    <animate attributeName="stroke-dashoffset" from="600" to="-200" dur="4.5s" repeatCount="indefinite" />
+                </path>
+                <path id="curvePath2" d="M 30,20 C 30,170 290,170 290,20" fill="none" stroke="var(--curve-line2)" stroke-width="3" stroke-linecap="round" stroke-dasharray="120 600" opacity="0.8">
+                    <animate attributeName="stroke-dashoffset" from="-200" to="600" dur="5.5s" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
         
-        <div class="character-wrapper">
+        <div class="character-wrapper gsap-char">
             <div class="deco" id="bubbleLeft">...</div>
             <div class="img-container float-anim" id="containerLeft">
                 <img src="pemanggil_kiri_3.png" id="imgLeft1" class="person-img" style="opacity:1" alt="">
                 <img src="pemanggil_kiri.png" id="imgLeft2" class="person-img" style="opacity:0" alt="">
             </div>
         </div>
-        <div class="character-wrapper">
+        <div class="character-wrapper gsap-char">
             <div class="deco" id="bubbleRight">...</div>
             <div class="img-container float-anim" id="containerRight">
                 <img src="pemanggil_kanan.png" id="imgRight1" class="person-img" style="opacity:1" alt="">
@@ -168,41 +332,203 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-logo">
-            <!-- Logo -->
+    <div class="card gsap-card">
+        <!-- Ekor Card Tajam ke Kiri Bawah (Sesuai Sketsa Garis Merah) -->
+        <div class="card-tail">
+            <svg viewBox="0 0 40 35">
+                <path d="M 12 0 L 0 32 L 32 12 Z" />
+            </svg>
+        </div>
+
+        <div class="card-logo gsap-logo">
             <img src="logo.png" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
         </div>
-        <h1 class="fade-text">Halo kamu !</h1>
-        <p id="typing-text"></p>
-        <a href="https://sukachub.my.id" class="cta-btn">Mulai Obrolan di iPixChat</a>
+        
+        <h1 id="halo-text">HAI KAMU !?</h1>
+        
+        <div class="cta-container">
+            <div class="btn-wrapper btn-wrapper-left gsap-btn-left">
+                <a href="https://ipix.fun" class="cta-btn btn-ipix btn-ipix-tilt">
+                    <span class="btn-title">iPixFuN</span>
+                    <span class="btn-sub">Buka ipix.fun ↗</span>
+                </a>
+            </div>
+            <div class="btn-wrapper btn-wrapper-right gsap-btn-right">
+                <a href="https://sukachub.my.id" class="cta-btn btn-chubby btn-chubby-tilt">
+                    <span class="btn-title">SukaChub</span>
+                    <span class="btn-sub">Buka sukachub.my.id ↗</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div style="margin-top: 40px; text-align: center; opacity: 0.7; font-size: 0.95rem; width: 100%; max-width: 460px;">
-        <a>aug 2026 | ipix.my.id /</a>
-        <a href="https://ipix.my.id" style="color: #67e8f9; text-decoration: none; font-weight: 600;">
-            iPixChaT
-        </a>
+    <div class="footer-text gsap-footer">
+        <span>aug 2026 | </span>
+        <a href="https://ipix.fun" class="footer-link">ipix.my.id</a>
     </div>
 
     <script>
-        // Script tetap sama
-        const bLeft=document.getElementById('bubbleLeft'), bRight=document.getElementById('bubbleRight');
-        const cLeft=document.getElementById('containerLeft'), cRight=document.getElementById('containerRight');
-        let step=0, bubbleTimeout, nextDialogTimeout;
+        let isDarkMode = true;
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-btn');
+            const label = document.getElementById('themeLabel');
+            const dot = document.getElementById('themeDot');
+            
+            if (isDarkMode) {
+                body.setAttribute('data-theme', 'light');
+                label.innerText = 'DARK';
+                dot.style.backgroundColor = '#111';
+                dot.style.boxShadow = '0 0 8px #111';
+            } else {
+                body.removeAttribute('data-theme');
+                label.innerText = 'LIGHT';
+                dot.style.backgroundColor = 'var(--gsap-green)';
+                dot.style.boxShadow = '0 0 8px var(--gsap-green)';
+            }
+            isDarkMode = !isDarkMode;
+            
+            gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: "back.out(2)" });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const logo = document.getElementById('logoFlipping');
+            const logoString = logo.innerText;
+            logo.innerHTML = '';
+            logoString.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.innerText = char;
+                if (index >= 4) span.style.color = 'var(--gsap-green)';
+                logo.appendChild(span);
+            });
+            const logoSpans = document.querySelectorAll('#logoFlipping span');
+
+            const halo = document.getElementById('halo-text');
+            const haloRawText = halo.innerText;
+            halo.innerHTML = '';
+            
+            let totalChars = haloRawText.replace(/ /g, '').length;
+            let charIndex = 0;
+            let wordIndex = 0;
+            
+            haloRawText.split('').forEach((char) => {
+                if (char === ' ') {
+                    const space = document.createElement('span');
+                    space.innerHTML = '&nbsp;';
+                    halo.appendChild(space);
+                    wordIndex++; 
+                } else {
+                    const span = document.createElement('span');
+                    span.innerText = char;
+                    span.classList.add('char');
+                    span.classList.add(wordIndex === 0 ? 'char-c1' : 'char-c2');
+                    
+                    if (char === '!' || char === '?') {
+                        span.classList.add('brutal-symbol');
+                    }
+                    
+                    let scaleProgress = charIndex / (totalChars - 1);
+                    span.style.fontSize = (0.75 + (scaleProgress * 0.75)) + 'em';
+                    
+                    halo.appendChild(span);
+                    charIndex++;
+                }
+            });
+            const haloChars = document.querySelectorAll('.char');
+            const brutalSymbols = document.querySelectorAll('.brutal-symbol');
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    gsap.to("#connectionCurve", { opacity: 1, duration: 1.5, ease: "power2.inOut" });
+                    
+                    gsap.to(haloChars, {
+                        scale: 1.08,
+                        y: -3,
+                        duration: 1.4,
+                        stagger: { each: 0.12, repeat: -1, yoyo: true },
+                        ease: "sine.inOut"
+                    });
+
+                    if (brutalSymbols.length > 0) {
+                        gsap.to(brutalSymbols, {
+                            scale: 1.4,
+                            rotation: () => (Math.random() * 30 - 15),
+                            y: -10,
+                            duration: 0.12,
+                            repeat: -1,
+                            yoyo: true,
+                            stagger: { each: 0.05 },
+                            ease: "power1.inOut"
+                        });
+                    }
+                    
+                    gsap.to(".gsap-logo", { scale: 1.06, boxShadow: "0 15px 0 var(--shadow-color)", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+                    gsap.to(".btn-wrapper-left", { y: -8, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+                    gsap.to(".btn-wrapper-right", { y: -10, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
+                    
+                    mulaiFungsiUtama();
+                }
+            });
+
+            tl.from(".gsap-nav", { y: -20, opacity: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)" })
+              .from(logoSpans, { rotationX: 180, y: -20, opacity: 0, duration: 0.8, stagger: 0.05, ease: "back.out(2)" }, "-=0.4")
+              .from(".gsap-char", { scale: 0, rotation: 10, opacity: 0, duration: 0.8, stagger: 0.2, ease: "elastic.out(1, 0.5)" }, "-=0.6")
+              .from(".gsap-footer", { opacity: 0, duration: 0.5 }, "-=0.5")
+              .from(".gsap-card", { y: 60, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+              .from(".gsap-logo", { scale: 0, rotation: -180, duration: 0.8, ease: "back.out(1.5)" }, "-=0.3")
+              .from(haloChars, {
+                  scale: 0, opacity: 0, duration: 0.6,
+                  stagger: { each: 0.05, from: "start" },
+                  ease: "back.out(2.5)"
+              }, "-=0.2")
+              .from(".gsap-btn-left", { x: -200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "-=0.2")
+              .from(".gsap-btn-right", { x: 200, opacity: 0, duration: 1.2, ease: "bounce.out" }, "<");
+              
+            logo.addEventListener('mouseenter', () => {
+                gsap.to(logoSpans, { rotationY: "+=360", duration: 0.6, stagger: 0.05, ease: "power2.inOut" });
+            });
+        });
+
+        const bLeft = document.getElementById('bubbleLeft'), bRight = document.getElementById('bubbleRight');
+        const cLeft = document.getElementById('containerLeft'), cRight = document.getElementById('containerRight');
+        let step = 0, bubbleTimeout, nextDialogTimeout;
+        let animLeft, animRight;
 
         const daftarFoto = {
             kiri: ["pemanggil_kiri.png", "pemanggil_kiri_2.png", "pemanggil_kiri_3.png"],
             kanan: ["pemanggil_kanan.png", "pemanggil_kanan_2.png", "pemanggil_kanan_3.png", "pemanggil_kanan_4.png"]
         };
 
+        /* Animasi Karakter & Sinkonisasi Kemunculan Garis Mengikuti Foto Membesar */
         function animateCharacter(side) {
+            if (animLeft) animLeft.kill();
+            if (animRight) animRight.kill();
+
+            // Efek garis menyala/menarik perhatian saat karakter membesar
+            gsap.fromTo("#connectionCurve", 
+                { scale: 0.95, opacity: 0.4 }, 
+                { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" }
+            );
+
             if (side === 'left') {
-                cLeft.classList.add('active-move'); cLeft.classList.remove('float-anim');
-                cRight.classList.remove('active-move'); cRight.classList.add('float-anim');
+                cLeft.classList.remove('float-anim');
+                cRight.classList.add('float-anim');
+                
+                gsap.to(cRight, { scale: 1, y: 0, duration: 0.4, onComplete: () => gsap.set(cRight, { clearProps: "transform" }) });
+                
+                animLeft = gsap.timeline()
+                    .to(cLeft, { scale: 1.35, y: -15, duration: 0.4, ease: "back.out(1.5)" })
+                    .to(cLeft, { y: -25, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
             } else {
-                cRight.classList.add('active-move'); cRight.classList.remove('float-anim');
-                cLeft.classList.remove('active-move'); cLeft.classList.add('float-anim');
+                cRight.classList.remove('float-anim');
+                cLeft.classList.add('float-anim');
+                
+                gsap.to(cLeft, { scale: 1, y: 0, duration: 0.4, onComplete: () => gsap.set(cLeft, { clearProps: "transform" }) });
+                
+                animRight = gsap.timeline()
+                    .to(cRight, { scale: 1.35, y: -15, duration: 0.4, ease: "back.out(1.5)" })
+                    .to(cRight, { y: -25, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
             }
         }
 
@@ -218,6 +544,8 @@
 
         function typeWriterBubble(el, text, speed, callback) {
             let i = 0; el.innerText = ""; clearTimeout(bubbleTimeout);
+            gsap.fromTo(el, { scale: 0.5, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" });
+            
             function type() {
                 if (i < text.length) {
                     el.innerText = text.substring(0, i + 1);
@@ -231,35 +559,32 @@
         function updateConversation() {
             clearTimeout(nextDialogTimeout);
             const delay = (ms) => new Promise(r => nextDialogTimeout = setTimeout(r, ms));
+            const showBubble = (el, text) => {
+                el.innerText = text;
+                gsap.fromTo(el, { scale: 0.5, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" });
+            };
 
             switch(step){
-                case 0: changeImageCrossFade('left',daftarFoto.kiri[2]); bLeft.style.opacity=1; bRight.style.opacity=0; animateCharacter('left');
+                case 0: changeImageCrossFade('left',daftarFoto.kiri[2]); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left');
                     typeWriterBubble(bLeft,"Hai saya iPix Salam kenal",45,()=>delay(1700).then(()=>{step=1;updateConversation()})); break;
-                case 1: changeImageCrossFade('right',daftarFoto.kanan[3]); bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right');
+                case 1: changeImageCrossFade('right',daftarFoto.kanan[3]); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right');
                     typeWriterBubble(bRight,"Hai juga, saya Chubby Salam kenal",45,()=>delay(1800).then(()=>{step=2;updateConversation()})); break;
-                case 2: changeImageCrossFade('right',daftarFoto.kanan[0]); bRight.innerText="Kamu apa kabar ?"; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(1550).then(()=>{step=3;updateConversation()}); break;
-                case 3: changeImageCrossFade('left',daftarFoto.kiri[2]); bLeft.innerText="Baik"; bLeft.style.opacity=1; bRight.style.opacity=0; animateCharacter('left'); delay(1250).then(()=>{step=4;updateConversation()}); break;
-                case 4: changeImageCrossFade('left',daftarFoto.kiri[0]); bLeft.innerText="Apa kabar kamu ?"; bLeft.style.opacity=1; bRight.style.opacity=0; animateCharacter('left'); delay(1650).then(()=>{step=5;updateConversation()}); break;
-                case 5: changeImageCrossFade('right',daftarFoto.kanan[0]); bRight.innerText="Baik juga"; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(1450).then(()=>{step=6;updateConversation()}); break;
-                case 6: changeImageCrossFade('right',daftarFoto.kanan[0]); bRight.innerText="Tinggal dimana?"; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(1600).then(()=>{step=7;updateConversation()}); break;
-                case 7: changeImageCrossFade('left',daftarFoto.kiri[0]); bLeft.innerText="Dihatimuuu"; bLeft.style.opacity=1; bRight.style.opacity=0; animateCharacter('left'); delay(1750).then(()=>{step=8;updateConversation()}); break;
-                case 8: changeImageCrossFade('right',daftarFoto.kanan[2]); bRight.innerText="Hoooeeekkk"; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(1450).then(()=>{step=9;updateConversation()}); break;
-                case 9: changeImageCrossFade('right',daftarFoto.kanan[1]); bRight.innerText="Gombal"; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(1400).then(()=>{step=10;updateConversation()}); break;
-                case 10: changeImageCrossFade('left',daftarFoto.kiri[1]); bLeft.innerText="Hahaha"; bLeft.style.opacity=1; bRight.style.opacity=0; animateCharacter('left'); delay(1650).then(()=>{step=11;updateConversation()}); break;
-                case 11: changeImageCrossFade('right',daftarFoto.kanan[0]); bRight.innerText="Hmm..."; bRight.style.opacity=1; bLeft.style.opacity=0; animateCharacter('right'); delay(2100).then(()=>{step=0;updateConversation()}); break;
+                case 2: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Kamu apa kabar ?"); animateCharacter('right'); delay(1550).then(()=>{step=3;updateConversation()}); break;
+                case 3: changeImageCrossFade('left',daftarFoto.kiri[2]); showBubble(bLeft, "Baik"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1250).then(()=>{step=4;updateConversation()}); break;
+                case 4: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Apa kabar kamu ?"); animateCharacter('left'); delay(1650).then(()=>{step=5;updateConversation()}); break;
+                case 5: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Baik juga"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=6;updateConversation()}); break;
+                case 6: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Tinggal dimana?"); animateCharacter('right'); delay(1600).then(()=>{step=7;updateConversation()}); break;
+                case 7: changeImageCrossFade('left',daftarFoto.kiri[0]); showBubble(bLeft, "Dihatimuuu"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1750).then(()=>{step=8;updateConversation()}); break;
+                case 8: changeImageCrossFade('right',daftarFoto.kanan[2]); showBubble(bRight, "Hoooeeekkk"); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(1450).then(()=>{step=9;updateConversation()}); break;
+                case 9: changeImageCrossFade('right',daftarFoto.kanan[1]); showBubble(bRight, "Gombal"); animateCharacter('right'); delay(1400).then(()=>{step=10;updateConversation()}); break;
+                case 10: changeImageCrossFade('left',daftarFoto.kiri[1]); showBubble(bLeft, "Hahaha"); gsap.to(bRight, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('left'); delay(1650).then(()=>{step=11;updateConversation()}); break;
+                case 11: changeImageCrossFade('right',daftarFoto.kanan[0]); showBubble(bRight, "Hmm..."); gsap.to(bLeft, {opacity:0, scale:0.8, duration:0.2}); animateCharacter('right'); delay(2100).then(()=>{step=0;updateConversation()}); break;
             }
         }
 
-        setTimeout(updateConversation,700);
-
-        const textElement=document.getElementById("typing-text");
-        const fullText="Ada pertanyaan atau obrolan ?";
-        let i=0;
-        function typeWriter(){
-            if(i<fullText.length){textElement.innerHTML=fullText.substring(0,i+1)+'<span class="typing-cursor"></span>';i++;setTimeout(typeWriter,48)}
-            else{textElement.innerHTML=fullText}
+        function mulaiFungsiUtama() {
+            setTimeout(updateConversation, 300);
         }
-        setTimeout(typeWriter,1100);
     </script>
 </body>
 </html>
