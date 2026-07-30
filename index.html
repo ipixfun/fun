@@ -91,7 +91,7 @@
         
         .character-wrapper{position:relative;display:flex;flex-direction:column;align-items:center;width:145px;height:185px;z-index:10}
         .img-container{position:relative;width:100%;height:100%;z-index:10;}
-        .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .5s ease-in-out}
+        .person-img{position:absolute;top:0;left:0;width:100%;height:auto;transition:opacity .4s ease-in-out}
 
         .float-anim{animation:float 4.2s ease-in-out infinite}
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -116,23 +116,24 @@
         #bubbleRight::before { border-width: 10px 0 0 12px; border-color: var(--gsap-green-dark) transparent transparent transparent; right: 16px; }
         #bubbleRight::after { border-width: 7px 0 0 9px; border-color: var(--gsap-green) transparent transparent transparent; right: 18px; margin-top: -2px; }
 
-        /* KOTAK UTAMA SINGLE CHAT BUBBLE */
+        /* KOTAK UTAMA KEMBALI SEPERTI SEMULA + SHADOW 3D PADAT */
         .card {
             position: relative; 
             z-index: 5;
             background: var(--card-bg); 
             border: var(--border-width) solid var(--border-color);
             padding: 105px 25px 35px; 
-            border-radius: 28px 28px 28px 0; /* Lancip di kiri bawah mengikuti ekor */
+            border-radius: 28px 28px 28px 0; 
             width: 100%; 
             max-width: 480px;
             text-align: center; 
             margin-top: 15px; 
-            box-shadow: 0 10px 30px var(--shadow-color);
+            /* SHADOW UNTUK OUTLINE KANAN DAN BAWAH */
+            box-shadow: 12px 12px 0 var(--border-color), 0 15px 30px var(--shadow-color);
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* EKOR GELEMBLUNG CHAT (PRESISI DENGAN SVG LAYERING) */
+        /* EKOR GELEMBLUNG CHAT KEMBALI SEPERTI SEMULA DAN DINAMIS */
         .card-tail {
             position: absolute;
             bottom: -22px;
@@ -156,7 +157,7 @@
             transition: stroke 0.5s ease;
         }
 
-        /* LIS LOGO: ABU DI MODE GELAP, HIJAU DI MODE TERANG */
+        /* LIS LOGO */
         .card-logo {
             position:absolute;top:-75px;left:50%;transform:translateX(-50%);
             width:130px;height:130px;background: #000;border-radius:50%;
@@ -245,7 +246,11 @@
             .character-wrapper { width: 100px; height: 130px; }
             .deco { font-size: 11px; padding: 5px 10px; bottom: calc(100% + 55px); }
             
-            .card { padding: 75px 15px 25px; border-radius: 20px 20px 20px 0; max-width: 95%; }
+            .card { 
+                padding: 75px 15px 25px; border-radius: 20px 20px 20px 0; max-width: 95%; 
+                /* SHADOW UKURAN DISESUAIKAN UNTUK MOBILE */
+                box-shadow: 8px 8px 0 var(--border-color), 0 10px 25px var(--shadow-color);
+            }
             .card-tail { width: 32px; height: 20px; bottom: -18px; }
             
             .card-logo { width: 100px; height: 100px; top: -50px; }
@@ -300,10 +305,10 @@
         </div>
     </div>
 
-    <!-- KOTAK UTAMA (SINGLE SPEECH BUBBLE SESUAI GAMBAR) -->
+    <!-- KOTAK UTAMA -->
     <div class="card gsap-card">
         
-        <!-- EKOR GELEMBLUNG CHAT (KIRI-BAWAH RAPI) -->
+        <!-- EKOR GELEMBLUNG CHAT (SEPERTI ASLI DAN DINAMIS) -->
         <div class="card-tail">
             <svg viewBox="0 0 36 22" overflow="visible">
                 <path class="tail-fill" d="M 2,-4 L 2,18 L 24,2 Z" />
@@ -493,13 +498,23 @@
             }
         }
 
+        /* 
+         BUG DIPERBAIKI: 
+         - Sebelumnya ada typo mengambil ID gambar yang salah (mengambil 'Right' ketika harusnya 'Left')
+         - Sekarang ID sudah secara presisi ditargetkan 
+        */
         function changeImageCrossFade(side, newSrc) {
-            const img1 = document.getElementById(`img${side==='left'?'Left':'Right'}1`);
-            const img2 = document.getElementById(`img${side==='left'?'Right':'Right'}2`);
-            if (getComputedStyle(img1).opacity === "1") {
-                img2.src = newSrc; img2.style.opacity = 1; img1.style.opacity = 0;
+            const img1 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}1`);
+            const img2 = document.getElementById(`img${side === 'left' ? 'Left' : 'Right'}2`);
+            
+            if (img1.style.opacity === "1" || getComputedStyle(img1).opacity === "1") {
+                img2.src = newSrc;
+                img2.style.opacity = 1;
+                img1.style.opacity = 0;
             } else {
-                img1.src = newSrc; img1.style.opacity = 1; img2.style.opacity = 0;
+                img1.src = newSrc;
+                img1.style.opacity = 1;
+                img2.style.opacity = 0;
             }
         }
 
